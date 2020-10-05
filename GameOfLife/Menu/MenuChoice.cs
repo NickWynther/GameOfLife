@@ -6,10 +6,12 @@ namespace GameOfLife.Menu
 {
     public enum MenuChoice
     {
-        New = 1,
+        New,
         Load,
         Save,
         PausePlay,
-        Exit
+        Exit,
+        Empty
+
     }
 }

@@ -9,7 +9,6 @@ namespace GameOfLife
     public class ConsoleMenu
     {
         public GameOfLife game { get; set; }
-
         public bool RunSimulation { get; set; }
 
         public async Task Run()
@@ -29,14 +28,23 @@ namespace GameOfLife
 
         public void Show()
         {
-            string menuCommands = "1.New 2.Load 3.Save 4.Pause/Play 5.Exit ";
+            string menuCommands = "[N].New [L].Load [S].Save [P].Pause/Play [E].Exit ";
             Console.WriteLine(menuCommands);
         }
 
         public MenuChoice GetCommand()
         {
-            string command = Console.ReadLine();
-            return (MenuChoice)Enum.Parse(typeof(MenuChoice), command);
+            var comandKey = Console.ReadKey();
+
+            switch (comandKey.Key)
+            {
+                case ConsoleKey.N : return MenuChoice.New;
+                case ConsoleKey.L : return MenuChoice.Load;
+                case ConsoleKey.P : return MenuChoice.PausePlay;
+                case ConsoleKey.S : return MenuChoice.Save;
+                case ConsoleKey.E : return MenuChoice.Exit;
+            }
+            return MenuChoice.Empty;
         }
 
         public void Choose(MenuChoice command)
@@ -81,7 +89,10 @@ namespace GameOfLife
 
         public async void LoadGame()
         {
+         
             //check file
+            //stop existing game if its run
+
             game = SaveRestoreGame.RestoreDataFromFile();
             await Run();
         }

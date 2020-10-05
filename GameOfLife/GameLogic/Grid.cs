@@ -10,25 +10,16 @@ namespace GameOfLife
     public class Grid : IEnumerable<Cell>
     {
         public int RowsCount { get;  set; }
-        public int ColumnCount { get; set; }
-     
-        
-        public Cell[,] _cells;
-
-        public Grid()
-        {
-
-        }
+        public int ColumnCount { get; set; }             
+        private Cell[,] _cells;
 
         public Grid(int rowsCount, int columnCount)
         {
             RowsCount = rowsCount;
             ColumnCount = columnCount;
             InitializeCells();
-
             //
             Randomize();
-
         }
 
         private void InitializeCells()
@@ -62,7 +53,6 @@ namespace GameOfLife
         }
 
         
-
         public int AliveNeighbourCount(int row, int column)
         {
             bool NeighbourIndexExist(int row, int column)

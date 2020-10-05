@@ -10,12 +10,7 @@ namespace GameOfLife
         public Grid Grid { get; set; }
         public IGameView OuputView { get; set; }
 
-        public uint _iterationNumber = 0;
-
-        public GameOfLife()
-        {
-                
-        }
+        private uint _iterationNumber = 0;
 
         public GameOfLife(int rowsCount , int columnCount , IGameView viewOutput)
         {

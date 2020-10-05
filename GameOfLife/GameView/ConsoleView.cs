@@ -32,7 +32,7 @@ namespace GameOfLife
                 }
                 Console.Write('\n');
             }
-
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Iteration number: {iterationNumber}");
             Console.WriteLine($"Live cells: {grid.AliveCellsCount()}");
         }
