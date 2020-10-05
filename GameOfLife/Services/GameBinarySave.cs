@@ -4,31 +4,27 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-//using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace GameOfLife
 {
-    public class SaveRestoreGame
+    //Save game object in binary format to file.
+    public class GameBinarySave : ISaveManager
     {
-        private static string _filename = "GameOfLife.txt";
-
-        public static void SaveDataToFile(GameOfLife game)
+        private const string _filename = "GameOfLife.txt";
+        public void Save(GameOfLife game)
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream( _filename , FileMode.Create, FileAccess.Write);
+            using Stream stream = new FileStream(_filename, FileMode.Create, FileAccess.Write);
             formatter.Serialize(stream, game);
-            stream.Close();
         }
 
-        public static GameOfLife RestoreDataFromFile()
+        public GameOfLife Load()
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(_filename, FileMode.Open, FileAccess.Read);
+            using Stream stream = new FileStream(_filename, FileMode.Open, FileAccess.Read);
             GameOfLife game = (GameOfLife)formatter.Deserialize(stream);
-            stream.Close();
             return game;
         }
-        
     }
 }

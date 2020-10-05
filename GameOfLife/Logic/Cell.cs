@@ -7,7 +7,9 @@ using System.Text;
 namespace GameOfLife
 {
     [Serializable]
-    public class Cell
+
+    //Particular cell on the game field 
+    public class Cell 
     {
         public Cell()
         {
@@ -17,13 +19,14 @@ namespace GameOfLife
         public State CurrentState { get; set; } = State.Dead;
         public State NextState { get; set; }
 
+        //Set current cell to random state 
         public void Randomize()
         {
-            //CurrentState = (State)RandomNumberGenerator.GetInt32(0, 2);
+            //Approximately: 20% dead 80% alive  
             CurrentState = (RandomNumberGenerator.GetInt32(0, 5) > 0) ? State.Dead : State.Alive;
-
         }
 
+        //Cell state in the next generation depends on count of alive neighbours
         public void CalculateNextState(int aliveNeighbourCount)
         {
             if (aliveNeighbourCount< 2 || aliveNeighbourCount> 3)
@@ -36,6 +39,7 @@ namespace GameOfLife
             }
         }
 
+        //Set new calculated status 
         public void Update()
         {
             CurrentState = NextState;

@@ -4,11 +4,12 @@ using System.Text;
 
 namespace GameOfLife
 {
+    //This class is game core 
     [Serializable]
     public class GameOfLife
     {
-        public Grid Grid { get; set; }
-        public IGameView OuputView { get; set; }
+        public Grid Grid { get; set; } //Field of cells
+        public IGameView OuputView { get; set; } //Game output (ex. ConsoleView)
 
         private uint _iterationNumber = 0;
 
@@ -18,7 +19,9 @@ namespace GameOfLife
             OuputView = viewOutput;
         }
 
-        public void NextIteration()
+        //Show current generation of cells
+        //And compute next generation 
+        public void NextIteration() 
         {
             OuputView.ShowGrid(Grid , _iterationNumber);
             CalculateNextGeneration();
@@ -27,7 +30,7 @@ namespace GameOfLife
         }
 
 
-        //Calculate new state for each cell (excluding borders)
+        //Calculate new states for each cell 
         private void CalculateNextGeneration()
         {
             for (int row = 0; row < Grid.RowsCount; row++)
@@ -40,7 +43,7 @@ namespace GameOfLife
             }
         }
 
-        //Apply calculated states to cells
+        //Apply new calculated states to cells
         private void UpdateGrid()
         {
             foreach (Cell cell in Grid)
@@ -48,6 +51,5 @@ namespace GameOfLife
                 cell.Update();
             }
         }
-
     }
 }

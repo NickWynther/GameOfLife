@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife.GameMenu
+namespace GameOfLife
 {
     class ConsoleCommandReader : ICommandReader
     {
+        //Get MenuCommand enum instance according to pressed key in console
         public MenuCommand GetCommandFromPlayer()
         {
             var comandKey = Console.ReadKey();
-
-            switch (comandKey.Key)
+           
+            return comandKey.Key switch
             {
-                case ConsoleKey.N: return MenuCommand.New;
-                case ConsoleKey.L: return MenuCommand.Load;
-                case ConsoleKey.P: return MenuCommand.PauseResume;
-                case ConsoleKey.S: return MenuCommand.Save;
-                case ConsoleKey.E: return MenuCommand.Exit;
-            }
-            return MenuCommand.Empty;
+                ConsoleKey.N => MenuCommand.New,
+                ConsoleKey.L => MenuCommand.Load,
+                ConsoleKey.P => MenuCommand.PauseResume,
+                ConsoleKey.S => MenuCommand.Save,
+                ConsoleKey.E => MenuCommand.Exit,
+                _ => MenuCommand.Empty
+            };
         }
     }
 }

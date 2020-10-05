@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GameOfLife.GameMenu;
 
 namespace GameOfLife
 {
@@ -17,12 +16,14 @@ namespace GameOfLife
         public IGameView GameView { get; set; }
         public ISizeReader SizeReader { get; set; }
         public ICommandReader CommandReader { get; set; }
-
-        public Menu(IGameView gameView , ISizeReader sizeReader , ICommandReader commandReader)
+        public ISaveManager SaveManager { get; set; }
+        public Menu(IGameView gameView, ISizeReader sizeReader,
+            ICommandReader commandReader, ISaveManager saveManager)
         {
             GameView = gameView;
             SizeReader = sizeReader;
             CommandReader = commandReader;
+            SaveManager = saveManager;
         }
 
         public void Start()
@@ -37,37 +38,46 @@ namespace GameOfLife
 
         public async void RunNewRound()
         {
-                _tokenSource = new CancellationTokenSource();
-                var token = _tokenSource.Token;
-                await (Task.Factory.StartNew(async () =>
+            _tokenSource = new CancellationTokenSource();
+            var token = _tokenSource.Token;
+            await (Task.Factory.StartNew(async () =>
+            {
+                PlayPauseGame = true;
+                while (true)
                 {
-                    PlayPauseGame = true;
-                    while (true)
+                    while (PlayPauseGame)
                     {
-                        while (PlayPauseGame)
+                        if (token.IsCancellationRequested)
                         {
-                            if (token.IsCancellationRequested)
-                            {
-                                return;
-                            }
-
-                            Game.NextIteration();
-                            GameView.ShowMenu();
-                            await Task.Delay(1000); //Calculate the next generation after 1 second
+                            return;
                         }
+
+                        Game.NextIteration();
+                        GameView.ShowMenu();
+                        await Task.Delay(1000); //Calculate the next generation after 1 second
                     }
-                }, token));
+                }
+            }, token));
         }      
 
         public void ExecuteCommand(MenuCommand command)
         {
             switch (command)
             {
-                case MenuCommand.New: { StartNewGame(GameView);} break;
-                case MenuCommand.Load:{ LoadGame();} break;
-                case MenuCommand.PauseResume: {PauseResumeGame(); } break;
-                case MenuCommand.Save: { SaveGame(); } break;
-                case MenuCommand.Exit: { ExitGame(); } break;
+                case MenuCommand.New: 
+                    StartNewGame(GameView); 
+                    break;
+                case MenuCommand.Load: 
+                    LoadGame(); 
+                    break;
+                case MenuCommand.PauseResume: 
+                    PauseResumeGame();
+                    break;
+                case MenuCommand.Save: 
+                    SaveGame(); 
+                    break;
+                case MenuCommand.Exit: 
+                    ExitGame();  break;
             }
         }
 
@@ -91,11 +101,11 @@ namespace GameOfLife
 
         public void LoadGame()
         {
-            ///TODO:check file
-
             //terminate running game round if it exist
             TerminateCurrentRound();
-            Game = SaveRestoreGame.RestoreDataFromFile();
+
+            ///TODO:check file
+            Game = SaveManager.Load();
             Game.OuputView = GameView;
             RunNewRound();
         }
@@ -110,7 +120,7 @@ namespace GameOfLife
 
         public void SaveGame()
         {
-            SaveRestoreGame.SaveDataToFile(Game);
+            SaveManager.Save(Game);
         }
     }
 }

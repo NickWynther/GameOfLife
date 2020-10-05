@@ -4,6 +4,7 @@ using System.Text;
 
 namespace GameOfLife
 {
+    //Cell states
     public enum State
     {
         Dead,

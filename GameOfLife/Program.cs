@@ -1,5 +1,4 @@
-﻿using GameOfLife.GameMenu;
-using System;
+﻿using System;
 using System.Threading;
 
 namespace GameOfLife
@@ -8,14 +7,12 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-
-
-            var menu = new Menu(new ConsoleView(),
+            var menu = new Menu(
+                new ConsoleView(),
                 new ConsoleSizeReader(),
-                new ConsoleCommandReader());
+                new ConsoleCommandReader(),
+                new GameBinarySave());
             menu.Start();
-
-            //WithoutMenu();
         }
 
         private static void WithoutMenu()
