@@ -12,7 +12,7 @@ namespace GameOfLife
 
         private uint _iterationNumber = 0;
 
-        public GameOfLife(int rowsCount , int columnCount , IGameView viewOutput)
+        public GameOfLife(uint rowsCount , uint columnCount , IGameView viewOutput)
         {
             Grid = new Grid(rowsCount,columnCount);
             OuputView = viewOutput;
@@ -20,7 +20,7 @@ namespace GameOfLife
 
         public void NextIteration()
         {
-            OuputView.Show(Grid , _iterationNumber);
+            OuputView.ShowGrid(Grid , _iterationNumber);
             CalculateNextGeneration();
             UpdateGrid();
             _iterationNumber++;

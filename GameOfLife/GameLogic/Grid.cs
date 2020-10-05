@@ -9,16 +9,15 @@ namespace GameOfLife
     [Serializable]
     public class Grid : IEnumerable<Cell>
     {
-        public int RowsCount { get;  set; }
-        public int ColumnCount { get; set; }             
+        public uint RowsCount { get;  set; }
+        public uint ColumnCount { get; set; }             
         private Cell[,] _cells;
 
-        public Grid(int rowsCount, int columnCount)
+        public Grid(uint rowsCount, uint columnCount)
         {
             RowsCount = rowsCount;
             ColumnCount = columnCount;
             InitializeCells();
-            //
             Randomize();
         }
 
@@ -88,17 +87,29 @@ namespace GameOfLife
             return aliveNeighbourCount;
         }
 
+        private void ValidateIndex(int row, int column)
+        {
+            if (row < 0 || column < 0 || row >= RowsCount || column >= ColumnCount)
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
 
         public Cell this[int row , int column]
         {
+           
             get
             {
+                ValidateIndex(row, column);
                 return _cells[row, column];
             }
             set
             {
+                ValidateIndex(row, column);
                 _cells[row,column] = value;
             }
+
+
         }
 
 

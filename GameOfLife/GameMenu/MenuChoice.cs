@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife.Menu
+namespace GameOfLife.GameMenu
 {
     public enum MenuChoice
     {
         New,
         Load,
         Save,
-        PausePlay,
+        PauseResume,
         Exit,
         Empty
 

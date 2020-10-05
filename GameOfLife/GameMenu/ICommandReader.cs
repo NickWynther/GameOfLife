@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameOfLife.Menu
+namespace GameOfLife.GameMenu
 {
-    interface ICommandReader
+    public interface ICommandReader
     {
         MenuChoice GetCommandFromPlayer();
     }

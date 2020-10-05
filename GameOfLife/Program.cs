@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.GameMenu;
+using System;
 using System.Threading;
 
 namespace GameOfLife
@@ -9,23 +10,23 @@ namespace GameOfLife
         {
 
 
-            ConsoleMenu menu = new ConsoleMenu();
-            while (true) 
-            {
-                menu.Show();
-                var cmd = menu.GetCommand();
-                menu.Choose(cmd);
-            }
+            var menu = new Menu(new ConsoleView(),
+                new ConsoleSizeReader(),
+                new ConsoleCommandReader());
+            menu.Start();
 
-            //Without Menu V1.0
-         
-            //GameOfLife game = new GameOfLife(15, 30, new ConsoleView());
-            //while (true)
-            //{
-            //    game.NextIteration();
-            //    Thread.Sleep(1000);
-            //    //Console.ReadKey();
-            //}
+            //WithoutMenu();
+        }
+
+        private static void WithoutMenu()
+        {
+            GameOfLife game = new GameOfLife(15, 30, new ConsoleView());
+            while (true)
+            {
+                game.NextIteration();
+                Thread.Sleep(1000);
+                //Console.ReadKey();
+            }
         }
     }
 }

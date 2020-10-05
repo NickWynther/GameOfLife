@@ -9,7 +9,8 @@ namespace GameOfLife
     {
         private string _alive = "■ ";
         private string  _dead = "_ ";
-        public void Show(Grid grid, uint iterationNumber)
+        private string _menuCommands = "[N].New [L].Load [S].Save [P].Pause/Play [E].Exit ";
+        public void ShowGrid(Grid grid, uint iterationNumber)
         {
             Console.Clear();
             string currentCell;
@@ -35,6 +36,12 @@ namespace GameOfLife
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"Iteration number: {iterationNumber}");
             Console.WriteLine($"Live cells: {grid.AliveCellsCount()}");
+        }
+
+        public void ShowMenu()
+        {
+            
+            Console.WriteLine(_menuCommands);
         }
     }
 }

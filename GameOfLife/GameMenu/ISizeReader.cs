@@ -4,8 +4,8 @@ using System.Text;
 
 namespace GameOfLife
 {
-    interface IGridSize
+    public interface ISizeReader
     {
-        (uint rows, uint column) GetSize();
+         public void GetSize(out uint rows, out uint column);
     }
 }

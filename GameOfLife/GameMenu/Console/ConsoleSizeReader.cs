@@ -4,20 +4,15 @@ using System.Text;
 
 namespace GameOfLife
 {
-    public class ConsoleReader : IGridSize
+    public class ConsoleSizeReader : ISizeReader
     {
-
-        public (uint rows, uint column) GetSize()
+        public void GetSize(out uint rows, out uint columns)
         {
-            var userRawInput = Read();
-            BindData(userRawInput , out uint width , out uint height);
-            if (!IsValid(width, height))
-            {
-               
-            }
-
-            return (height, width);
+            var playerInput = Read();
+            BindData(playerInput, out rows, out columns);
+            Validate(rows, columns);
         }
+
 
         private string[] Read()
         {
@@ -46,9 +41,12 @@ namespace GameOfLife
             
         }
 
-        private bool IsValid(uint width , uint height)
+        private void Validate(uint rows , uint columns)
         {
-            return (width > 0 && height > 0);
+            if (rows < 1 || columns < 1)
+            {
+                throw new ArgumentException("Argumnents should be positive");
+            }
         }
 
         
