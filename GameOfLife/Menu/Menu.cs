@@ -65,7 +65,7 @@ namespace GameOfLife
             switch (command)
             {
                 case MenuCommand.New: 
-                    StartNewGame(GameView); 
+                    StartNewGame(); 
                     break;
                 case MenuCommand.Load: 
                     LoadGame(); 
@@ -91,11 +91,11 @@ namespace GameOfLife
             PlayPauseGame = !PlayPauseGame;
         }
 
-        public void StartNewGame(IGameView gameView)
+        public void StartNewGame()
         {
             TerminateCurrentRound();
             SizeReader.GetSize(out uint rows, out uint column);
-            Game = new GameOfLife(rows, column, gameView);
+            Game = new GameOfLife(rows, column, GameView);
             RunNewRound();
         }
 
