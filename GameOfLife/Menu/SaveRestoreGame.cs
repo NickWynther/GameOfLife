@@ -24,6 +24,7 @@ namespace GameOfLife
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream("GameOfLife.txt", FileMode.Open, FileAccess.Read);
             GameOfLife game = (GameOfLife)formatter.Deserialize(stream);
+            stream.Close();
             return game;
         }
         

@@ -6,6 +6,6 @@ namespace GameOfLife.GameMenu
 {
     public interface ICommandReader
     {
-        MenuChoice GetCommandFromPlayer();
+        MenuCommand GetCommandFromPlayer();
     }
 }

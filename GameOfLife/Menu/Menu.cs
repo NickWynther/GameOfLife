@@ -11,8 +11,8 @@ namespace GameOfLife
     {
         public GameOfLife Game { get; set; }
         public bool PlayPauseGame { get; set; }
-        public bool ContinueGame { get; set; }
 
+        private CancellationTokenSource _tokenSource;
 
         public IGameView GameView { get; set; }
         public ISizeReader SizeReader { get; set; }
@@ -24,48 +24,52 @@ namespace GameOfLife
             GameView = gameView;
             SizeReader = sizeReader;
             CommandReader = commandReader;
+            
         }
 
         public void Start()
         {
             GameView.ShowMenu();
-
             while (true)
             {
-                
                 var command = CommandReader.GetCommandFromPlayer();
-                Choose(command);
+                ExecuteCommand(command);
             }
         }
 
-
-
-        public async Task NewRound()
+        public async void RunNewRound()
         {
-            PlayPauseGame = true;
-            ContinueGame = true;
-            while (ContinueGame) 
-            {
-                while (PlayPauseGame && ContinueGame)
+                _tokenSource = new CancellationTokenSource();
+                var token = _tokenSource.Token;
+                await (Task.Factory.StartNew(async () =>
                 {
-                    Game.NextIteration();
-                    GameView.ShowMenu();
-                    await Task.Delay(1000); //Calculate the next generation after 1 second
-                } 
-            }
-        }
+                    PlayPauseGame = true;
+                    while (true)
+                    {
+                        while (PlayPauseGame)
+                        {
+                            if (token.IsCancellationRequested)
+                            {
+                                return;
+                            }
 
-      
+                            Game.NextIteration();
+                            GameView.ShowMenu();
+                            await Task.Delay(1000); //Calculate the next generation after 1 second
+                        }
+                    }
+                }, token));
+        }      
 
-        public void Choose(MenuChoice command)
+        public void ExecuteCommand(MenuCommand command)
         {
             switch (command)
             {
-                case MenuChoice.New: { StartNewGame(GameView);} break;
-                case MenuChoice.Load:{ LoadGame();} break;
-                case MenuChoice.PauseResume: {PauseResumeGame(); } break;
-                case MenuChoice.Save: { SaveGame(); } break;
-                case MenuChoice.Exit: { ExitGame(); } break;
+                case MenuCommand.New: { StartNewGame(GameView);} break;
+                case MenuCommand.Load:{ LoadGame();} break;
+                case MenuCommand.PauseResume: {PauseResumeGame(); } break;
+                case MenuCommand.Save: { SaveGame(); } break;
+                case MenuCommand.Exit: { ExitGame(); } break;
             }
         }
 
@@ -79,42 +83,36 @@ namespace GameOfLife
             PlayPauseGame = !PlayPauseGame;
         }
 
-        public async void StartNewGame(IGameView gameView)
+        public void StartNewGame(IGameView gameView)
         {
             TerminateCurrentRound();
             SizeReader.GetSize(out uint rows, out uint column);
             Game = new GameOfLife(rows, column, gameView);
-            //run
-            await NewRound();
+            RunNewRound();
         }
 
-        public async void LoadGame()
+        public void LoadGame()
         {
             ///TODO:check file
-            ///TODO:terminate running game if it exist
-            ///
 
+            //terminate running game round if it exist
             TerminateCurrentRound();
-
             Game = SaveRestoreGame.RestoreDataFromFile();
             Game.OuputView = GameView;
-            await NewRound();
+            RunNewRound();
         }
 
         private void TerminateCurrentRound()
         {
-            ContinueGame = false;
-            PlayPauseGame = false;
-            Thread.Sleep(1000);
+            if (_tokenSource != null)
+            {
+                _tokenSource.Cancel();
+            }
         }
 
         public void SaveGame()
         {
             SaveRestoreGame.SaveDataToFile(Game);
         }
-
-
-
-
     }
 }

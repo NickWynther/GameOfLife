@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameOfLife.GameMenu
 {
-    public enum MenuChoice
+    public enum MenuCommand
     {
         New,
         Load,
@@ -12,6 +12,5 @@ namespace GameOfLife.GameMenu
         PauseResume,
         Exit,
         Empty
-
     }
 }

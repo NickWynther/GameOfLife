@@ -20,7 +20,6 @@ namespace GameOfLife
         public void Randomize()
         {
             //CurrentState = (State)RandomNumberGenerator.GetInt32(0, 2);
-
             CurrentState = (RandomNumberGenerator.GetInt32(0, 5) > 0) ? State.Dead : State.Alive;
 
         }
