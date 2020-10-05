@@ -16,9 +16,9 @@ namespace GameOfLife
 
         private string[] Read()
         {
-            Console.WriteLine("Enter Height: ");
+            Console.Write("\nEnter Height: ");
             string width = Console.ReadLine();
-            Console.WriteLine("Enter Width: ");
+            Console.Write("Enter Width: ");
             string height = Console.ReadLine();
             return new string[] { width, height };
         }

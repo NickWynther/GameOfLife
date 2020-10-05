@@ -18,13 +18,11 @@ namespace GameOfLife
         public ISizeReader SizeReader { get; set; }
         public ICommandReader CommandReader { get; set; }
 
-
         public Menu(IGameView gameView , ISizeReader sizeReader , ICommandReader commandReader)
         {
             GameView = gameView;
             SizeReader = sizeReader;
             CommandReader = commandReader;
-            
         }
 
         public void Start()

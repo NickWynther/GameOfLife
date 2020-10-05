@@ -11,10 +11,12 @@ namespace GameOfLife
 {
     public class SaveRestoreGame
     {
+        private static string _filename = "GameOfLife.txt";
+
         public static void SaveDataToFile(GameOfLife game)
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("GameOfLife.txt", FileMode.Create, FileAccess.Write);
+            Stream stream = new FileStream( _filename , FileMode.Create, FileAccess.Write);
             formatter.Serialize(stream, game);
             stream.Close();
         }
@@ -22,7 +24,7 @@ namespace GameOfLife
         public static GameOfLife RestoreDataFromFile()
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("GameOfLife.txt", FileMode.Open, FileAccess.Read);
+            Stream stream = new FileStream(_filename, FileMode.Open, FileAccess.Read);
             GameOfLife game = (GameOfLife)formatter.Deserialize(stream);
             stream.Close();
             return game;
