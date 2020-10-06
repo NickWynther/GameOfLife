@@ -6,6 +6,9 @@ namespace GameOfLife
 {
     public interface ICommandReader
     {
+        /// <summary>
+        /// Get enum with command chosen by player
+        /// </summary>
         MenuCommand GetCommandFromPlayer();
     }
 }

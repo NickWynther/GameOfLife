@@ -8,10 +8,18 @@ using Newtonsoft.Json;
 
 namespace GameOfLife
 {
-    //Save game object in binary format to file.
+
+    /// <summary>
+    /// Save/Load game in binary format.
+    /// </summary>
     public class GameBinarySave : ISaveManager
     {
         private const string _filename = "GameOfLife.txt";
+
+
+        /// <summary>
+        /// Save game object in binary format to file.
+        /// </summary>
         public void Save(GameOfLife game)
         {
             IFormatter formatter = new BinaryFormatter();
@@ -19,6 +27,10 @@ namespace GameOfLife
             formatter.Serialize(stream, game);
         }
 
+
+        /// <summary>
+        /// Load game object from file.
+        /// </summary>
         public GameOfLife Load()
         {
             IFormatter formatter = new BinaryFormatter();

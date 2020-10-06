@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace GameOfLife
 {
+    /// <summary>
+    ///  Particular cell on the game grid. 
+    /// </summary>
     [Serializable]
-
-    //Particular cell on the game field 
     public class Cell 
     {
         public Cell()
@@ -19,14 +17,19 @@ namespace GameOfLife
         public State CurrentState { get; set; } = State.Dead;
         public State NextState { get; set; }
 
-        //Set current cell to random state 
+        /// <summary>
+        /// Set current cell to random state.
+        /// Approximately 20% chance to become alive (And 80% - dead). 
+        /// </summary>
         public void Randomize()
         {
-            //Approximately: 20% dead 80% alive  
             CurrentState = (RandomNumberGenerator.GetInt32(0, 5) > 0) ? State.Dead : State.Alive;
         }
 
-        //Cell state in the next generation depends on count of alive neighbours
+        /// <summary>
+        /// Calculate cell state in next generation. 
+        /// This state depends on count of alive neighbours for current cell.
+        /// </summary>
         public void CalculateNextState(int aliveNeighbourCount)
         {
             if (aliveNeighbourCount< 2 || aliveNeighbourCount> 3)
@@ -39,11 +42,12 @@ namespace GameOfLife
             }
         }
 
-        //Set new calculated status 
+        /// <summary>
+        /// Set new status for cell. (Update to next generation.)
+        /// </summary>
         public void Update()
         {
             CurrentState = NextState;
         }
-
     }
 }

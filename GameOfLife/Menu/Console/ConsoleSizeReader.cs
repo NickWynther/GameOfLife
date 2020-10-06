@@ -4,9 +4,17 @@ using System.Text;
 
 namespace GameOfLife
 {
-    //Get grid size from console 
+    /// <summary>
+    /// Console implementation of ISizeReader.
+    /// </summary>
     public class ConsoleSizeReader : ISizeReader
     {
+
+        /// <summary>
+        /// Get grid size from user throught console.
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
         public void GetSize(out uint rows, out uint columns)
         {
             var playerInput = Read();
@@ -14,7 +22,10 @@ namespace GameOfLife
             Validate(rows, columns);
         }
 
-        //Ask player to pass count of rows and columns
+        /// <summary>
+        /// Ask player to pass count of rows and columns.
+        /// </summary>
+        /// <returns>Array with two strings provided by user.</returns>
         private string[] Read()
         {
             Console.Write("\nEnter Height: ");
@@ -24,7 +35,13 @@ namespace GameOfLife
             return new string[] { width, height };
         }
 
-        //Parse user input as unsigned integers
+        /// <summary>
+        /// Parse user input as unsigned integers.
+        /// If input is incorrect, throw ArgumnetException.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
         private void BindData(string[] data ,out uint width , out uint height )
         {
             if (data.Length >= 2)
@@ -40,7 +57,12 @@ namespace GameOfLife
             }
         }
 
-        //Count of coulms and rows should be positive
+        /// <summary>
+        /// Validate user input. Count of coulms and rows should be positive.
+        /// If not, throw ArgumnetException.
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
         private void Validate(uint rows , uint columns)
         {
             if (rows < 1 || columns < 1)

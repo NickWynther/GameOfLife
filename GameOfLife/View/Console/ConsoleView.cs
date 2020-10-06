@@ -40,7 +40,6 @@ namespace GameOfLife
 
         public void ShowMenu()
         {
-            
             Console.WriteLine(_menuCommands);
         }
     }

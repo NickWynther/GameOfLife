@@ -6,7 +6,9 @@ namespace GameOfLife
 {
     public interface ISizeReader
     {
-        //Get grid size for new instance creating
-         public void GetSize(out uint rows, out uint column);
+        /// <summary>
+        /// Get size for new grid instance creating.
+        /// </summary>
+        public void GetSize(out uint rows, out uint column);
     }
 }

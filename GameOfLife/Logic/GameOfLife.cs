@@ -4,7 +4,9 @@ using System.Text;
 
 namespace GameOfLife
 {
-    //This class is game core 
+    /// <summary>
+    /// This class is 'Game of life' logical core. 
+    /// </summary>
     [Serializable]
     public class GameOfLife
     {
@@ -19,8 +21,10 @@ namespace GameOfLife
             OuputView = viewOutput;
         }
 
-        //Show current generation of cells
-        //And compute next generation 
+        /// <summary>
+        /// Show current generation of cells.
+        /// And compute next generation.  
+        /// </summary>
         public void NextIteration() 
         {
             OuputView.ShowGrid(Grid , _iterationNumber);
@@ -29,8 +33,9 @@ namespace GameOfLife
             _iterationNumber++;
         }
 
-
-        //Calculate new states for each cell 
+        /// <summary>
+        /// Calculate new states for each cell.
+        /// </summary>
         private void CalculateNextGeneration()
         {
             for (int row = 0; row < Grid.RowsCount; row++)
@@ -43,7 +48,9 @@ namespace GameOfLife
             }
         }
 
-        //Apply new calculated states to cells
+        /// <summary>
+        /// Apply new calculated states to cells.
+        /// </summary>
         private void UpdateGrid()
         {
             foreach (Cell cell in Grid)

@@ -8,11 +8,7 @@ namespace GameOfLife
 {
     public class Menu
     {
-        public GameOfLife Game { get; set; }
-        public bool PlayPauseGame { get; set; }
-
-        private CancellationTokenSource _tokenSource;
-
+        public GameRound GameRound { get; set; }
         public IGameView GameView { get; set; }
         public ISizeReader SizeReader { get; set; }
         public ICommandReader CommandReader { get; set; }
@@ -36,30 +32,6 @@ namespace GameOfLife
             }
         }
 
-        public async void RunNewRound()
-        {
-            _tokenSource = new CancellationTokenSource();
-            var token = _tokenSource.Token;
-            await (Task.Factory.StartNew(async () =>
-            {
-                PlayPauseGame = true;
-                while (true)
-                {
-                    while (PlayPauseGame)
-                    {
-                        if (token.IsCancellationRequested)
-                        {
-                            return;
-                        }
-
-                        Game.NextIteration();
-                        GameView.ShowMenu();
-                        await Task.Delay(1000); //Calculate the next generation after 1 second
-                    }
-                }
-            }, token));
-        }      
-
         public void ExecuteCommand(MenuCommand command)
         {
             switch (command)
@@ -77,7 +49,8 @@ namespace GameOfLife
                     SaveGame(); 
                     break;
                 case MenuCommand.Exit: 
-                    ExitGame();  break;
+                    ExitGame();  
+                    break;
             }
         }
 
@@ -88,39 +61,29 @@ namespace GameOfLife
 
         private void PauseResumeGame()
         {
-            PlayPauseGame = !PlayPauseGame;
+            GameRound.PauseResume();
         }
 
         public void StartNewGame()
         {
-            TerminateCurrentRound();
+            GameRound?.Terminate();
             SizeReader.GetSize(out uint rows, out uint column);
-            Game = new GameOfLife(rows, column, GameView);
-            RunNewRound();
+            GameRound = new GameRound(rows, column, GameView);
         }
 
         public void LoadGame()
         {
             //terminate running game round if it exist
-            TerminateCurrentRound();
+            GameRound?.Terminate();
 
             ///TODO:check file
-            Game = SaveManager.Load();
-            Game.OuputView = GameView;
-            RunNewRound();
-        }
-
-        private void TerminateCurrentRound()
-        {
-            if (_tokenSource != null)
-            {
-                _tokenSource.Cancel();
-            }
+            GameOfLife Game = SaveManager.Load();
+            GameRound = new GameRound(Game,GameView);
         }
 
         public void SaveGame()
         {
-            SaveManager.Save(Game);
+            SaveManager.Save(GameRound.Game);
         }
     }
 }

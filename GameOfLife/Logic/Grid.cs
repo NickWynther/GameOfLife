@@ -6,8 +6,12 @@ using System.Collections;
 
 namespace GameOfLife
 {
-    //Grid represents a rectangle field of cells
+
+    /// <summary>
+    /// Grid represents a rectangle field of cells
+    /// </summary>
     [Serializable]
+
     public class Grid : IEnumerable<Cell>
     {
         public uint RowsCount { get;  set; }
@@ -22,7 +26,9 @@ namespace GameOfLife
             Randomize();
         }
 
-        //Initialize two-dimensional _cells array with Cell objects
+        /// <summary>
+        /// Initialize two-dimensional _cells array with Cell objects
+        /// </summary>
         private void InitializeCells()
         {
             _cells = new Cell[RowsCount, ColumnCount];
@@ -35,7 +41,9 @@ namespace GameOfLife
             }
         }
 
-        //Set all cells in random state 
+        /// <summary>
+        /// Set all cells in random state 
+        /// </summary>
         public void Randomize()
         {
             foreach(Cell cell in _cells)
@@ -44,7 +52,9 @@ namespace GameOfLife
             }
         }
 
-        //Get count of all alive cells on the grid
+        /// <summary>
+        /// Get count of all alive cells on the grid
+        /// </summary>
         public int AliveCellsCount()
         {
             int count = 0;
@@ -55,7 +65,12 @@ namespace GameOfLife
             return count;
         }
 
-        //Check if element with provided index exists on the grid
+        /// <summary>
+        /// Check if element with provided index exists on the grid
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <returns>True if element exist, False if not exist.</returns>
         private bool IndexExist(int row, int column)
         {
             if (row == -1 || row == RowsCount)
@@ -69,7 +84,11 @@ namespace GameOfLife
             return true;
         }
 
-        //Get count of alive neighbour for conrete cell
+        /// <summary>
+        /// Get count of alive neighbour for conrete cell
+        /// </summary>
+        /// <param name="row">Cell row index on the grid</param>
+        /// <param name="column">Cell column index on the grid</param>
         public int AliveNeighbourCount(int row, int column)
         {
             var aliveNeighbourCount = 0;
@@ -89,8 +108,13 @@ namespace GameOfLife
             }
             return aliveNeighbourCount;
         }
-        
-        //Implementation of indexer 
+
+        /// <summary>
+        /// Implementation of indexer 
+        /// </summary>
+        /// <param name="row">Row's index on the grid</param>
+        /// <param name="column">Column's index on the grid</param>
+        /// <returns>Cell with provided index</returns>
         public Cell this[int row , int column]
         {
             get
