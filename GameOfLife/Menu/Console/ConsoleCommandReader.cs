@@ -17,11 +17,16 @@ namespace GameOfLife
             var comandKey = Console.ReadKey();      
             return comandKey.Key switch
             {
-                ConsoleKey.N => MenuCommand.New,
-                ConsoleKey.L => MenuCommand.Load,
-                ConsoleKey.P => MenuCommand.PauseResume,
-                ConsoleKey.S => MenuCommand.Save,
-                ConsoleKey.E => MenuCommand.Exit,
+                ConsoleKey.N => MenuCommand.NewGame,
+                ConsoleKey.L => MenuCommand.LoadFromFile,
+                ConsoleKey.P => MenuCommand.PauseExecution,
+                ConsoleKey.R => MenuCommand.ResumeExecution,
+                ConsoleKey.S => MenuCommand.SaveToFile,
+                ConsoleKey.Escape => MenuCommand.Exit,
+                ConsoleKey.A => MenuCommand.AddToScreen,
+                ConsoleKey.Z => MenuCommand.HideFromScreen,
+                ConsoleKey.V => MenuCommand.AddEightToScreen,
+                ConsoleKey.M => MenuCommand.ThousandNewGames,
                 _ => MenuCommand.Empty
             };
         }

@@ -6,7 +6,10 @@ namespace GameOfLife
 {
     public interface IGameView
     {
-        public void ShowGrid(Grid grid , uint iterationNumber);
+        public void ShowGrid(GameOfLife game);
         public void ShowMenu();
+        public void ShowStatistic(int gameCount, int totalCells);
+        public void Clear();
+        public void ShowException(Exception ex);
     }
 }

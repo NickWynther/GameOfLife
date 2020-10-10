@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace GameOfLife
@@ -10,16 +11,23 @@ namespace GameOfLife
     [Serializable]
     public class GameOfLife
     {
+        private static int _idCounter = 1;
+        public int Id { get; private set; }
         public Grid Grid { get; set; } //Field of cells
-        public IGameView OuputView { get; set; } //Game output (ex. ConsoleView)
+        public uint IterationNumber { get; private set; } = 0;
 
-        private uint _iterationNumber = 0;
-
-        public GameOfLife(uint rowsCount , uint columnCount , IGameView viewOutput)
+        public GameOfLife(uint rowsCount , uint columnCount)
         {
             Grid = new Grid(rowsCount,columnCount);
-            OuputView = viewOutput;
+            Id = _idCounter++;
         }
+
+        [OnDeserialized]
+        public void CreateId(StreamingContext context)
+        {
+            Id = _idCounter++;
+        }
+
 
         /// <summary>
         /// Show current generation of cells.
@@ -27,10 +35,10 @@ namespace GameOfLife
         /// </summary>
         public void NextIteration() 
         {
-            OuputView.ShowGrid(Grid , _iterationNumber);
             CalculateNextGeneration();
-            UpdateGrid();
-            _iterationNumber++;
+            //UpdateGrid();
+            Grid.Update();
+            IterationNumber++;
         }
 
         /// <summary>
@@ -45,17 +53,6 @@ namespace GameOfLife
                     int aliveNeighbourCount = Grid.AliveNeighbourCount(row, column);
                     Grid[row, column].CalculateNextState(aliveNeighbourCount);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Apply new calculated states to cells.
-        /// </summary>
-        private void UpdateGrid()
-        {
-            foreach (Cell cell in Grid)
-            {
-                cell.Update();
             }
         }
     }

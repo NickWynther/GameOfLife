@@ -28,9 +28,9 @@ namespace GameOfLife
         /// <returns>Array with two strings provided by user.</returns>
         private string[] Read()
         {
-            Console.Write("\nEnter Height: ");
+            Console.Write("\nEnter Height> ");
             string width = Console.ReadLine();
-            Console.Write("Enter Width: ");
+            Console.Write("Enter Width> ");
             string height = Console.ReadLine();
             return new string[] { width, height };
         }

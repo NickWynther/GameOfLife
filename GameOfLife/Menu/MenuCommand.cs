@@ -6,10 +6,15 @@ namespace GameOfLife
 {
     public enum MenuCommand
     {
-        New,
-        Load,
-        Save,
-        PauseResume,
+        NewGame,
+        ThousandNewGames,
+        LoadFromFile,
+        SaveToFile,
+        PauseExecution,
+        ResumeExecution,
+        AddToScreen,
+        AddEightToScreen,
+        HideFromScreen,
         Exit,
         Empty
     }

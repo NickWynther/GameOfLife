@@ -26,6 +26,14 @@ namespace GameOfLife
             Randomize();
         }
 
+        public void Update()
+        {
+            foreach (Cell cell in _cells)
+            {
+                cell.Update();
+            }
+        }
+
         /// <summary>
         /// Initialize two-dimensional _cells array with Cell objects
         /// </summary>

@@ -11,19 +11,9 @@ namespace GameOfLife
                 new ConsoleView(),
                 new ConsoleSizeReader(),
                 new ConsoleCommandReader(),
+                new ConsoleGameSelector(),
                 new GameBinarySave());
-            menu.Start();
-        }
-
-        private static void WithoutMenu()
-        {
-            GameOfLife game = new GameOfLife(15, 30, new ConsoleView());
-            while (true)
-            {
-                game.NextIteration();
-                Thread.Sleep(1000);
-                //Console.ReadKey();
-            }
+            menu.Run();
         }
     }
 }

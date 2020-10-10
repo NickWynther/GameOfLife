@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+
+namespace GameOfLife
+{
+    public class GameManager
+    {
+        private IGameView _gameView;
+        private GameRepository _gameRepo;
+        private GameRepository _gamesOnScreen;
+        private Timer _timer;
+       
+        public GameManager(IGameView gameView, GameRepository gameRepo)
+        {
+            _gameView = gameView;
+            _gameRepo = gameRepo;
+            _gamesOnScreen = new GameRepository();
+            SetupTimer();
+        }
+
+        private void SetupTimer()
+        {
+            TimerCallback tm = new TimerCallback(NextIteration);
+            _timer = new Timer(tm, null, Timeout.Infinite, Timeout.Infinite);
+        }
+
+        public void Pause() => _timer?.Change(Timeout.Infinite, Timeout.Infinite);
+        public void Resume() => _timer?.Change(0, 1000);
+        public void Hide(int id) => _gamesOnScreen.Remove(id);
+        public void AddToShowList(int id) => _gamesOnScreen.Add(_gameRepo.Get(id));
+        public void SetGamesToShow(List<int> idList)
+        {
+            _gamesOnScreen.Clear();
+            foreach (int id in idList)
+            {
+                AddToShowList(id);
+            }
+        }
+
+        /// <summary>
+        /// Create new game and add it to repository.
+        /// This games will be started executing immediately
+        /// </summary>
+        public void StartNewGame(uint rowCount , uint columnCount)
+        {
+            _gameRepo.Add(new GameOfLife(rowCount, columnCount));
+            ShowDefault();
+        }
+
+        /// <summary>
+        /// Create new games and add them to repository.
+        /// This games will be started executing immediately.
+        /// </summary>
+        /// <param name="count">Count of new games.</param>
+        public void StartNewGame(uint rowCount, uint columnCount , int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                _gameRepo.Add(new GameOfLife(rowCount, columnCount));
+            }
+            ShowDefault();
+        } 
+
+        /// <summary>
+        /// If screen is empty but there are running games on the background. Show first game on screen.
+        /// </summary>
+        public void ShowDefault()
+        {
+            if (_gamesOnScreen.Count() == 0 && _gameRepo.Count() > 0)
+            {
+                _gamesOnScreen.Add(_gameRepo.Get(1));
+            }
+        }
+
+        /// <summary>
+        /// This method is called by timer in the loop every constatnt period of time.
+        /// Method represent game basic iteration:
+        /// Update views for games on screen.
+        /// Calculate next generations for all games.
+        /// </summary>
+        /// <param name="obj">This parameter is requierd by delegat signature for passing this method to Timer. Can set it to null </param>
+        public void NextIteration(object obj)
+        {
+            ShowToPlayer();
+            foreach(var game in _gameRepo)
+            {
+                game.NextIteration();
+            }
+        }
+
+        /// <summary>
+        /// Show next generation for games on screen.
+        /// Update statistic.
+        /// </summary>
+        private void ShowToPlayer()
+        {
+            _gameView.Clear();
+            foreach (var game in _gamesOnScreen)
+            {
+                _gameView.ShowGrid(game);
+            }
+            _gameView.ShowStatistic(_gameRepo.Count(), _gameRepo.TotalAliveCells());
+            _gameView.ShowMenu();
+        }
+    }
+}
