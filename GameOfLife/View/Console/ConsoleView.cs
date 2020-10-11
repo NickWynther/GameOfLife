@@ -4,12 +4,21 @@ using System.Text;
 
 namespace GameOfLife
 {
-    [Serializable]
+
+    /// <summary>
+    /// Game output, console implementation.
+    /// </summary>
     public class ConsoleView : IGameView
     {
+        //characters representing states
         private string _alive = "■ ";
         private string  _dead = "_ ";
         
+        /// <summary>
+        /// Show particular game grid in console window.
+        /// And particular game statistic.
+        /// </summary>
+        /// <param name="game">Game to show.</param>
         public void ShowGrid(GameOfLife game)
         {
             string currentCell;
@@ -38,6 +47,9 @@ namespace GameOfLife
             Console.WriteLine($"Live cells: {game.Grid.AliveCellsCount()}");
         }
 
+        /// <summary>
+        /// Show console menu commands.
+        /// </summary>
         public void ShowMenu()
         {
             Console.WriteLine("-------Menu-------");
@@ -55,17 +67,29 @@ namespace GameOfLife
             Console.Write(">");
         }
 
+        /// <summary>
+        /// Show statistic for all running games.
+        /// </summary>
+        /// <param name="gameCount">Count or running games.</param>
+        /// <param name="totalCells">Total count of alive cells in all games.</param>
         public void ShowStatistic(int gameCount, int totalCells)
         {
             Console.WriteLine($"GAMES COUNT: {gameCount}");
             Console.WriteLine($"TOTAL LIVE CELLS: {totalCells}");
         }
 
+        /// <summary>
+        /// Clear information from console window.
+        /// </summary>
         public void Clear()
         {
             Console.Clear();
         }
 
+        /// <summary>
+        /// Show exception message in console.
+        /// </summary>
+        /// <param name="ex">Exception</param>
         public void ShowException(Exception ex)
         {
             Console.WriteLine(ex.Message);

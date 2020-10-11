@@ -22,21 +22,26 @@ namespace GameOfLife
             Id = _idCounter++;
         }
 
+        /// <summary>
+        /// When game is loaded from storage, this callback method create new id.
+        /// </summary>
+        /// <param name="context">Parameter is required by delegat signature.
+        /// Describes the source and destination of given serialized stream.
+        /// </param>
         [OnDeserialized]
         public void CreateId(StreamingContext context)
         {
             Id = _idCounter++;
         }
 
-
         /// <summary>
-        /// Show current generation of cells.
-        /// And compute next generation.  
+        /// Basic iteration for particular game:
+        ///Calculate next generation.  
+        ///Update all cells on grid.
         /// </summary>
         public void NextIteration() 
         {
             CalculateNextGeneration();
-            //UpdateGrid();
             Grid.Update();
             IterationNumber++;
         }

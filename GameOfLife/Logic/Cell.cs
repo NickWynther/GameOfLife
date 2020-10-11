@@ -43,7 +43,7 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Set new status for cell. (Update to next generation.)
+        /// Set new status for cell. (Apply calculation)
         /// </summary>
         public void Update()
         {

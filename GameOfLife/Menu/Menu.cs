@@ -119,17 +119,17 @@ namespace GameOfLife
         /// Select 8 running games and show them on the screen. 
         /// Others game will be removed from screen.
         /// </summary>
-        private void ShowEight() => _gameManager.SetGamesToShow(GameSelector.SelectGame(8));
+        private void ShowEight() => _gameManager.SetToScreen(GameSelector.SelectGame(8));
 
         /// <summary>
         /// Select game and hide it from screen.
         /// </summary>
-        private void HideFromScreen() => _gameManager.Hide(GameSelector.SelectGame());
+        private void HideFromScreen() => _gameManager.HideFromScreen(GameSelector.SelectGame());
 
         /// <summary>
         /// Select game and add it to the screen.
         /// </summary>
-        private void AddToScreen() => _gameManager.AddToShowList(GameSelector.SelectGame());
+        private void AddToScreen() => _gameManager.SetToScreen(GameSelector.SelectGame());
 
         /// <summary>
         /// Select game and save it to storage.

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace GameOfLife
 {
+    /// <summary>
+    /// Provide to player functionality to selct game size
+    /// </summary>
     public interface ISizeReader
     {
         /// <summary>

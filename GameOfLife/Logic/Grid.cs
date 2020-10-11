@@ -6,32 +6,27 @@ using System.Collections;
 
 namespace GameOfLife
 {
-
     /// <summary>
     /// Grid represents a rectangle field of cells
     /// </summary>
     [Serializable]
-
-    public class Grid : IEnumerable<Cell>
+    public class Grid : IEnumerable
     {
         public uint RowsCount { get;  set; }
         public uint ColumnCount { get; set; }             
         private Cell[,] _cells;
 
+        /// <summary>
+        /// Create new grid
+        /// </summary>
+        /// <param name="rowsCount">Height size.</param>
+        /// <param name="columnCount">Width size.</param>
         public Grid(uint rowsCount, uint columnCount)
         {
             RowsCount = rowsCount;
             ColumnCount = columnCount;
             InitializeCells(); 
             Randomize();
-        }
-
-        public void Update()
-        {
-            foreach (Cell cell in _cells)
-            {
-                cell.Update();
-            }
         }
 
         /// <summary>
@@ -50,7 +45,7 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Set all cells in random state 
+        /// Set all cells in random state.
         /// </summary>
         public void Randomize()
         {
@@ -61,7 +56,18 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Get count of all alive cells on the grid
+        /// Set new states for all cells on grid. (Create next generation.)
+        /// </summary>
+        public void Update()
+        {
+            foreach (Cell cell in _cells)
+            {
+                cell.Update();
+            }
+        }
+
+        /// <summary>
+        /// Get count of all alive cells on the grid.
         /// </summary>
         public int AliveCellsCount()
         {
@@ -74,10 +80,8 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Check if element with provided index exists on the grid
+        /// Check if element with provided index exists on the grid.
         /// </summary>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
         /// <returns>True if element exist, False if not exist.</returns>
         private bool IndexExist(int row, int column)
         {
@@ -95,8 +99,8 @@ namespace GameOfLife
         /// <summary>
         /// Get count of alive neighbour for conrete cell
         /// </summary>
-        /// <param name="row">Cell row index on the grid</param>
-        /// <param name="column">Cell column index on the grid</param>
+        /// <param name="row">Cell position</param>
+        /// <param name="column">Cell position</param>
         public int AliveNeighbourCount(int row, int column)
         {
             var aliveNeighbourCount = 0;
@@ -135,22 +139,10 @@ namespace GameOfLife
             }
         }
 
-        #region Implementation of IEnumerable
-        public IEnumerator<Cell> GetEnumerator()
+        /// <returns>An IEnumerator for grid</returns>
+        public IEnumerator GetEnumerator()
         {
-            for (int row = 0; row < RowsCount; row++)
-            {
-                for (int column = 0; column < ColumnCount; column++)
-                {
-                    yield return this[row, column];
-                }
-            }
+            return _cells.GetEnumerator();
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-        #endregion
     }
 }

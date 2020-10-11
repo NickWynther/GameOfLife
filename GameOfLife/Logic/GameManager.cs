@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace GameOfLife
 {
+    /// <summary>
+    /// Functionality to manipulate with games.
+    /// </summary>
     public class GameManager
     {
         private IGameView _gameView;
@@ -20,22 +23,47 @@ namespace GameOfLife
             SetupTimer();
         }
 
+        /// <summary>
+        /// Setup timer object to execute games iterations every constat period of time.
+        /// </summary>
         private void SetupTimer()
         {
             TimerCallback tm = new TimerCallback(NextIteration);
             _timer = new Timer(tm, null, Timeout.Infinite, Timeout.Infinite);
         }
 
+        /// <summary>
+        /// Pause all game execution.
+        /// </summary>
         public void Pause() => _timer?.Change(Timeout.Infinite, Timeout.Infinite);
+
+        /// <summary>
+        /// Resume all game execution.
+        /// </summary>
         public void Resume() => _timer?.Change(0, 1000);
-        public void Hide(int id) => _gamesOnScreen.Remove(id);
-        public void AddToShowList(int id) => _gamesOnScreen.Add(_gameRepo.Get(id));
-        public void SetGamesToShow(List<int> idList)
+
+        /// <summary>
+        /// Hide game from screen.
+        /// </summary>
+        /// <param name="id">Game id</param>
+        public void HideFromScreen(int id) => _gamesOnScreen.Remove(id);
+
+        /// <summary>
+        /// Add game to screen.
+        /// </summary>
+        /// <param name="id">Game id</param>
+        public void SetToScreen(int id) => _gamesOnScreen.Add(_gameRepo.Get(id));
+
+        /// <summary>
+        /// Set games from list to screen and remove others.
+        /// </summary>
+        /// <param name="idList">List of games id</param>
+        public void SetToScreen(List<int> idList)
         {
             _gamesOnScreen.Clear();
             foreach (int id in idList)
             {
-                AddToShowList(id);
+                SetToScreen(id);
             }
         }
 
