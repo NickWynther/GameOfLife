@@ -6,6 +6,7 @@ using System.Text;
 
 namespace GameOfLife
 {
+    [Serializable]
     public class GameRepository : IEnumerable<GameOfLife>
     {
         private List<GameOfLife> _games;

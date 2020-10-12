@@ -14,6 +14,7 @@ namespace GameOfLife
     public class GameBinarySave : ISaveManager
     {
         private const string _filename = "GameOfLife.txt";
+        private const string _repoFilename = "GameOfLifeAll.txt";
 
         /// <summary>
         /// Save game object in binary format to file.
@@ -34,6 +35,29 @@ namespace GameOfLife
             using Stream stream = new FileStream(_filename, FileMode.Open, FileAccess.Read);
             GameOfLife game = (GameOfLife)formatter.Deserialize(stream);
             return game;
+        }
+
+        /// <summary>
+        /// Save all games from repository to storage
+        /// </summary>
+        /// <param name="games"></param>
+        public void SaveAll(GameRepository games)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            using Stream stream = new FileStream(_repoFilename, FileMode.Create, FileAccess.Write);
+            formatter.Serialize(stream, games);
+        }
+
+        /// <summary>
+        /// Load all games from file to repository
+        /// </summary>
+        /// <returns>Deserizalized repository</returns>
+        public GameRepository LoadAll()
+        {
+            IFormatter formatter = new BinaryFormatter();
+            using Stream stream = new FileStream(_repoFilename, FileMode.Open, FileAccess.Read);
+            GameRepository gameRepo = (GameRepository)formatter.Deserialize(stream);
+            return gameRepo;
         }
     }
 }

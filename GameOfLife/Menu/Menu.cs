@@ -75,10 +75,10 @@ namespace GameOfLife
                 case MenuCommand.NewGame: 
                     StartNewGame(); 
                     break;
-                case MenuCommand.LoadFromFile: 
+                case MenuCommand.LoadGame: 
                     LoadGame(); 
                     break;
-                case MenuCommand.SaveToFile: 
+                case MenuCommand.SaveGame: 
                     SaveGame(); 
                     break;
                 case MenuCommand.Exit: 
@@ -95,6 +95,12 @@ namespace GameOfLife
                     break;
                 case MenuCommand.HideFromScreen:
                     HideFromScreen();
+                    break;
+                case MenuCommand.LoadAllGames:
+                    LoadAllGames();
+                    break;
+                case MenuCommand.SaveAllGames:
+                    SaveAllGames();
                     break;
             }
             Resume();
@@ -144,6 +150,26 @@ namespace GameOfLife
         {
             var game = SaveManager.Load();
             _gameRepo.Add(game);
+            _gameManager.ShowDefault();
+        }
+
+
+        /// <summary>
+        /// Save all running games from repository to storage.
+        /// </summary>
+        private void SaveAllGames() => SaveManager.SaveAll(_gameRepo);
+
+
+        /// <summary>
+        /// Load all saved games from storage to repository and start execute them.
+        /// </summary>
+        public void LoadAllGames()
+        {
+            var games = SaveManager.LoadAll();
+            foreach(var game in games)
+            {
+                _gameRepo.Add(game);
+            }
             _gameManager.ShowDefault();
         }
 

@@ -43,19 +43,23 @@ namespace GameOfLife
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"ID:{game.Id}");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"Iteration number: {game.IterationNumber}");
+            Console.WriteLine($"Iteration: {game.IterationNumber}");
             Console.WriteLine($"Live cells: {game.Grid.AliveCellsCount()}");
         }
 
         /// <summary>
         /// Show console menu commands.
         /// </summary>
+        /// 
+
         public void ShowMenu()
         {
             Console.WriteLine("-------Menu-------");
             Console.WriteLine("[N].New");
             Console.WriteLine("[S].Save");
+            Console.WriteLine("[O].Save all");
             Console.WriteLine("[L].Load");
+            Console.WriteLine("[I].Load all");
             Console.WriteLine("[P].Pause");
             Console.WriteLine("[R].Resume");
             Console.WriteLine("[M].Run 1000 games");
@@ -74,8 +78,10 @@ namespace GameOfLife
         /// <param name="totalCells">Total count of alive cells in all games.</param>
         public void ShowStatistic(int gameCount, int totalCells)
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"GAMES COUNT: {gameCount}");
             Console.WriteLine($"TOTAL LIVE CELLS: {totalCells}");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         /// <summary>

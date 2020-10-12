@@ -8,8 +8,10 @@ namespace GameOfLife
     {
         NewGame,
         ThousandNewGames,
-        LoadFromFile,
-        SaveToFile,
+        LoadGame,
+        SaveGame,
+        LoadAllGames,
+        SaveAllGames,
         PauseExecution,
         ResumeExecution,
         AddToScreen,
