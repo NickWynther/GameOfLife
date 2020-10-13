@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -15,7 +16,6 @@ namespace GameOfLife
         private GameRepository _gamesOnScreen;
         private Timer _timer;
        
-
         /// <summary>
         /// Basic constructor.
         /// </summary>
@@ -67,10 +67,7 @@ namespace GameOfLife
         public void SetToScreen(List<int> idList)
         {
             _gamesOnScreen.Clear();
-            foreach (int id in idList)
-            {
-                SetToScreen(id);
-            }
+            idList.ForEach(id => SetToScreen(id));
         }
 
         /// <summary>
@@ -119,10 +116,7 @@ namespace GameOfLife
         public void NextIteration(object obj)
         {
             ShowToPlayer();
-            foreach(var game in _gameRepo)
-            {
-                game.NextIteration();
-            }
+            _gameRepo.ToList().ForEach(game => game.NextIteration());
         }
 
         /// <summary>
@@ -132,10 +126,7 @@ namespace GameOfLife
         private void ShowToPlayer()
         {
             _gameView.ClearScreen();
-            foreach (var game in _gamesOnScreen)
-            {
-                _gameView.ShowGrid(game);
-            }
+            _gamesOnScreen.ToList().ForEach(game => _gameView.ShowGrid(game));
             _gameView.ShowStatistic(_gameRepo.Count(), _gameRepo.TotalAliveCells());
             _gameView.ShowMenu();
         }

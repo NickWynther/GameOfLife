@@ -44,6 +44,7 @@ namespace GameOfLife
         public void CreateId(StreamingContext context)
         {
             Id = _idCounter++;
+            Grid.SetNeighbours();
         }
 
         /// <summary>
@@ -53,24 +54,9 @@ namespace GameOfLife
         /// </summary>
         public void NextIteration() 
         {
-            CalculateNextGeneration();
+            Grid.CalculateNextGeneration();
             Grid.Update();
             IterationNumber++;
-        }
-
-        /// <summary>
-        /// Calculate new states for each cell.
-        /// </summary>
-        private void CalculateNextGeneration()
-        {
-            for (int row = 0; row < Grid.RowsCount; row++)
-            {
-                for (int column = 0; column < Grid.ColumnCount; column++)
-                {
-                    int aliveNeighbourCount = Grid.AliveNeighbourCount(row, column);
-                    Grid[row, column].CalculateNextState(aliveNeighbourCount);
-                }
-            }
         }
     }
 }

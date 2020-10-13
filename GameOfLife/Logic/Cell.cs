@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace GameOfLife
@@ -9,6 +11,8 @@ namespace GameOfLife
     [Serializable]
     public class Cell 
     {
+        [JsonIgnore]
+        public List<Cell> Neighbours { get; set; } 
         public State CurrentState { get; set; } = State.Dead;
         public State NextState { get; set; }
 
@@ -22,12 +26,27 @@ namespace GameOfLife
         }
 
         /// <summary>
+        /// Count of alive neighbour for current cell.
+        /// </summary>
+        public int AliveNeighbourCount()
+        {
+            int count = 0;
+            foreach (Cell cell in Neighbours)
+            {
+                count += (cell.CurrentState == State.Alive) ? 1 : 0;
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Calculate cell state in next generation. 
         /// This state depends on count of alive neighbours for current cell.
         /// </summary>
-        public void CalculateNextState(int aliveNeighbourCount)
+        public void CalculateNextState()
         {
-            if (aliveNeighbourCount< 2 || aliveNeighbourCount> 3)
+            int aliveNeighbourCount = AliveNeighbourCount();
+
+            if (aliveNeighbourCount < 2 || aliveNeighbourCount > 3)
             {
                 NextState = State.Dead;
             }

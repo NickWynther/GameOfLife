@@ -20,7 +20,6 @@ namespace GameOfLife
         [JsonProperty]
         private Cell[,] _cells;
         
-
         /// <summary>
         /// Basic constructor.
         /// </summary>
@@ -30,7 +29,8 @@ namespace GameOfLife
         {
             RowsCount = rowsCount;
             ColumnCount = columnCount;
-            InitializeCells(); 
+            InitializeGrid();
+            SetNeighbours();
             Randomize();
         }
 
@@ -44,7 +44,7 @@ namespace GameOfLife
         /// <summary>
         /// Initialize two-dimensional _cells array with Cell objects
         /// </summary>
-        private void InitializeCells()
+        private void InitializeGrid()
         {
             _cells = new Cell[RowsCount, ColumnCount];
             for (int row = 0; row < RowsCount; row++)
@@ -52,6 +52,31 @@ namespace GameOfLife
                 for (int column = 0; column < ColumnCount; column++)
                 {
                     _cells[row, column] = new Cell();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate new states for each cell.
+        /// </summary>
+        public void CalculateNextGeneration()
+        {
+            foreach (Cell cell in _cells)
+            {
+                cell.CalculateNextState();
+            }
+        }
+
+        /// <summary>
+        /// Set list of neighbours for each cell
+        /// </summary>
+        public void SetNeighbours()
+        {
+            for (int row = 0; row < RowsCount; row++)
+            {
+                for (int column = 0; column < ColumnCount; column++)
+                {
+                    _cells[row, column].Neighbours = GetNeighbourList(row, column);
                 }
             }
         }
@@ -70,7 +95,7 @@ namespace GameOfLife
         /// <summary>
         /// Set new states for all cells on grid. (Create next generation.)
         /// </summary>
-        public void Update()
+        public void Update() 
         {
             foreach (Cell cell in _cells)
             {
@@ -109,28 +134,27 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Get count of alive neighbour for conrete cell
+        /// Get list of neigbour cells for particular cell
         /// </summary>
-        /// <param name="row">Cell position</param>
-        /// <param name="column">Cell position</param>
-        public int AliveNeighbourCount(int row, int column)
+        /// <returns>List of neighbour cells</returns>
+        public List<Cell> GetNeighbourList(int row, int column)
         {
-            var aliveNeighbourCount = 0;
+            var neighbours = new List<Cell>();
 
-            for (var i = row -1; i <= row+1; i++)
+            for (var i = row - 1; i <= row + 1; i++)
             {
-                for (var j = column -1; j <= column+1; j++)
+                for (var j = column - 1; j <= column + 1; j++)
                 {
                     //SKIP, because target cell is not a neighbour for itself 
                     // OR Index out of bounds
-                    if (i == row && j == column || !IndexExist(i,j) )
+                    if (i == row && j == column || !IndexExist(i, j))
                     {
                         continue;
                     }
-                    aliveNeighbourCount += _cells[i , j].CurrentState == State.Alive ? 1 : 0;
+                    neighbours.Add(_cells[i, j]);
                 }
             }
-            return aliveNeighbourCount;
+            return neighbours;
         }
 
         /// <summary>

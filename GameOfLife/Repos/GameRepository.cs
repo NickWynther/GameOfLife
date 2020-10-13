@@ -44,6 +44,12 @@ namespace GameOfLife
         public void Add(GameOfLife game) => _games.Add(game);
 
         /// <summary>
+        /// Add many games to the repository. (Concatinate repositories)
+        /// </summary>
+        public void Add(GameRepository games) => games.ToList().ForEach(game => Add(game));
+
+
+        /// <summary>
         /// Removes all games from repository.
         /// </summary>
         public void Clear() => _games.Clear();

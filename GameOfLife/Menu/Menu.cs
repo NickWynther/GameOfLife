@@ -160,10 +160,7 @@ namespace GameOfLife
         private void LoadAllGames()
         {
             var games = _saveManager.LoadAll();
-            foreach(var game in games)
-            {
-                _gameRepo.Add(game);
-            }
+            _gameRepo.Add(games);
             _gameManager.ShowDefault();
         }
 
