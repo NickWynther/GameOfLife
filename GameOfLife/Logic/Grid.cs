@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace GameOfLife
 {
@@ -10,14 +11,18 @@ namespace GameOfLife
     /// Grid represents a rectangle field of cells.
     /// </summary>
     [Serializable]
-    public class Grid : IEnumerable
+    [JsonObject]
+    public class Grid : IEnumerable 
     {
         public uint RowsCount { get;  set; }
-        public uint ColumnCount { get; set; }             
+        public uint ColumnCount { get; set; }
+
+        [JsonProperty]
         private Cell[,] _cells;
+        
 
         /// <summary>
-        /// Create new grid
+        /// Basic constructor.
         /// </summary>
         /// <param name="rowsCount">Height size.</param>
         /// <param name="columnCount">Width size.</param>
@@ -27,6 +32,13 @@ namespace GameOfLife
             ColumnCount = columnCount;
             InitializeCells(); 
             Randomize();
+        }
+
+        /// <summary>
+        /// Constructor for deserialization.
+        /// </summary>
+        public Grid()
+        {
         }
 
         /// <summary>
@@ -127,7 +139,8 @@ namespace GameOfLife
         /// <param name="row">Row's index on the grid</param>
         /// <param name="column">Column's index on the grid</param>
         /// <returns>Cell with provided index</returns>
-        public Cell this[int row , int column]
+
+        public Cell this[int row, int column]
         {
             get
             {
@@ -135,7 +148,7 @@ namespace GameOfLife
             }
             set
             {
-                _cells[row,column] = value;
+                _cells[row, column] = value;
             }
         }
 

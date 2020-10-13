@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,10 @@ namespace GameOfLife
     /// Basic game collection. List wrapper.
     /// </summary>
     [Serializable]
+    [JsonObject]
     public class GameRepository : IEnumerable<GameOfLife>
     {
+        [JsonProperty]
         private List<GameOfLife> _games;
 
         /// <summary>

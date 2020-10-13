@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -14,12 +15,23 @@ namespace GameOfLife
         private static int _idCounter = 1;
         public int Id { get; private set; }
         public Grid Grid { get; set; } //Field of cells
+        [JsonProperty]
         public uint IterationNumber { get; private set; } = 0;
 
+        /// <summary>
+        /// Create new game.
+        /// </summary>
         public GameOfLife(uint rowsCount , uint columnCount)
         {
             Grid = new Grid(rowsCount,columnCount);
             Id = _idCounter++;
+        }
+
+        /// <summary>
+        /// Constructor for desealization.
+        /// </summary>
+        public GameOfLife()
+        {
         }
 
         /// <summary>

@@ -9,11 +9,6 @@ namespace GameOfLife
     [Serializable]
     public class Cell 
     {
-        public Cell()
-        {
-           
-        }
-
         public State CurrentState { get; set; } = State.Dead;
         public State NextState { get; set; }
 

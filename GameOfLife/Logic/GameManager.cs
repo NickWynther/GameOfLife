@@ -15,6 +15,12 @@ namespace GameOfLife
         private GameRepository _gamesOnScreen;
         private Timer _timer;
        
+
+        /// <summary>
+        /// Basic constructor.
+        /// </summary>
+        /// <param name="gameView">Game window handler.</param>
+        /// <param name="gameRepo">Repository with games.</param>
         public GameManager(IGameView gameView, GameRepository gameRepo)
         {
             _gameView = gameView;
@@ -88,6 +94,7 @@ namespace GameOfLife
             {
                 _gameRepo.Add(new GameOfLife(rowCount, columnCount));
             }
+
             ShowDefault();
         } 
 

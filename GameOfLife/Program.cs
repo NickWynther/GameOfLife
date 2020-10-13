@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading;
 
 namespace GameOfLife
@@ -10,9 +11,10 @@ namespace GameOfLife
             //setup game menu
             var menu = new Menu(
                 new ConsoleUI(),
-                new GameBinarySave()); ;
+                new GameJsonSave());
             //start menu 
             menu.Run();
+
         }
     }
 }
