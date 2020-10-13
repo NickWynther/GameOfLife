@@ -4,7 +4,6 @@ using System.Text;
 
 namespace GameOfLife
 {
-
     /// <summary>
     /// Cell states
     /// </summary>

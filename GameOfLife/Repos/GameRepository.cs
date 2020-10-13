@@ -6,11 +6,17 @@ using System.Text;
 
 namespace GameOfLife
 {
+    /// <summary>
+    /// Basic game collection. List wrapper.
+    /// </summary>
     [Serializable]
     public class GameRepository : IEnumerable<GameOfLife>
     {
         private List<GameOfLife> _games;
 
+        /// <summary>
+        /// Create new repository.
+        /// </summary>
         public GameRepository()
         {
             _games = new List<GameOfLife>();
@@ -54,7 +60,8 @@ namespace GameOfLife
             if (_games.Exists(game => game.Id == id)) 
             { 
                 _games.RemoveAll(game => game.Id == id);
-            }else
+            }
+            else
             {
                 throw new ArgumentException("Incorrect game id.");
             }
@@ -69,7 +76,8 @@ namespace GameOfLife
             try
             {
                 return _games.Single(game => game.Id == id);
-            }catch
+            }
+            catch
             {
                 throw new ArgumentException("Incorrect game id.");
             }

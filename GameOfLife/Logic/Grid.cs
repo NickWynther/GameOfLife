@@ -7,7 +7,7 @@ using System.Collections;
 namespace GameOfLife
 {
     /// <summary>
-    /// Grid represents a rectangle field of cells
+    /// Grid represents a rectangle field of cells.
     /// </summary>
     [Serializable]
     public class Grid : IEnumerable

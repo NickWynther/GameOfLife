@@ -4,7 +4,6 @@ using System.Text;
 
 namespace GameOfLife
 {
-
     /// <summary>
     /// Game output, console implementation.
     /// </summary>
@@ -36,10 +35,13 @@ namespace GameOfLife
                         Console.ForegroundColor = ConsoleColor.White;
                         currentCell = _dead;
                     }
+
                     Console.Write(currentCell);
                 }
+
                 Console.Write('\n');
             }
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"ID:{game.Id}");
             Console.ForegroundColor = ConsoleColor.White;

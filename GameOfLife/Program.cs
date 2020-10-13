@@ -3,16 +3,18 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            //setup game menu
             var menu = new Menu(
                 new ConsoleView(),
                 new ConsoleSizeReader(),
                 new ConsoleCommandReader(),
                 new ConsoleGameSelector(),
                 new GameBinarySave());
+            //start menu 
             menu.Run();
         }
     }

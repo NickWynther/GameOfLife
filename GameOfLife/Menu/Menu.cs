@@ -13,22 +13,31 @@ namespace GameOfLife
     {
         private GameRepository _gameRepo;
         private GameManager _gameManager;
-        public IGameView GameView { get; set; }
-        public ISizeReader SizeReader { get; set; }
-        public ICommandReader CommandReader { get; set; }
-        public IGameSelector GameSelector { get; set; }
-        public ISaveManager SaveManager { get; set; }
+        private IGameView _gameView;
+        private ISizeReader _sizeReader;
+        private ICommandReader _commandReader;
+        private IGameSelector _gameSelector;
+        private ISaveManager _saveManager;
+
+        /// <summary>
+        /// Create menu.
+        /// </summary>
+        /// <param name="gameView">Game output</param>
+        /// <param name="sizeReader"> Functionality for player to input grid size.</param>
+        /// <param name="commandReader">Functionality for player to input commands </param>
+        /// <param name="gameSelector">Functionality for player to select games</param>
+        /// <param name="saveManager">Service for game saving/loading</param>
         public Menu(IGameView gameView, ISizeReader sizeReader,
             ICommandReader commandReader, IGameSelector gameSelector, ISaveManager saveManager)
         {
-            GameView = gameView;
-            SizeReader = sizeReader;
-            CommandReader = commandReader;
-            GameSelector = gameSelector;
-            SaveManager = saveManager;
+            _gameView = gameView;
+            _sizeReader = sizeReader;
+            _commandReader = commandReader;
+            _gameSelector = gameSelector;
+            _saveManager = saveManager;
 
             _gameRepo = new GameRepository();
-            _gameManager = new GameManager(GameView, _gameRepo);
+            _gameManager = new GameManager(_gameView, _gameRepo);
         }
 
         /// <summary>
@@ -36,17 +45,17 @@ namespace GameOfLife
         /// </summary>
         public void Run()
         {
-            GameView.ShowMenu();
+            _gameView.ShowMenu();
             while (true)
             {
                 try
                 {
-                    var command = CommandReader.GetCommandFromPlayer();
+                    var command = _commandReader.GetCommandFromPlayer();
                     ExecuteCommand(command);
                 }
                 catch(Exception ex)
                 {
-                    GameView.ShowException(ex);
+                    _gameView.ShowException(ex);
                     Pause();
                 }
             }
@@ -125,47 +134,45 @@ namespace GameOfLife
         /// Select 8 running games and show them on the screen. 
         /// Others game will be removed from screen.
         /// </summary>
-        private void ShowEight() => _gameManager.SetToScreen(GameSelector.SelectGame(8));
+        private void ShowEight() => _gameManager.SetToScreen(_gameSelector.SelectGame(8));
 
         /// <summary>
         /// Select game and hide it from screen.
         /// </summary>
-        private void HideFromScreen() => _gameManager.HideFromScreen(GameSelector.SelectGame());
+        private void HideFromScreen() => _gameManager.HideFromScreen(_gameSelector.SelectGame());
 
         /// <summary>
         /// Select game and add it to the screen.
         /// </summary>
-        private void AddToScreen() => _gameManager.SetToScreen(GameSelector.SelectGame());
+        private void AddToScreen() => _gameManager.SetToScreen(_gameSelector.SelectGame());
 
         /// <summary>
         /// Select game and save it to storage.
         /// </summary>
-        private void SaveGame() => SaveManager.Save(_gameRepo.Get(GameSelector.SelectGame()));
+        private void SaveGame() => _saveManager.Save(_gameRepo.Get(_gameSelector.SelectGame()));
 
         /// <summary>
         /// Load game from storage and add it to running games. 
         /// If no other games running, show this game on the screen.
         /// </summary>
-        public void LoadGame()
+        private void LoadGame()
         {
-            var game = SaveManager.Load();
+            var game = _saveManager.Load();
             _gameRepo.Add(game);
             _gameManager.ShowDefault();
         }
 
-
         /// <summary>
         /// Save all running games from repository to storage.
         /// </summary>
-        private void SaveAllGames() => SaveManager.SaveAll(_gameRepo);
-
+        private void SaveAllGames() => _saveManager.SaveAll(_gameRepo);
 
         /// <summary>
         /// Load all saved games from storage to repository and start execute them.
         /// </summary>
-        public void LoadAllGames()
+        private void LoadAllGames()
         {
-            var games = SaveManager.LoadAll();
+            var games = _saveManager.LoadAll();
             foreach(var game in games)
             {
                 _gameRepo.Add(game);
@@ -178,7 +185,7 @@ namespace GameOfLife
         /// </summary>
         private void StartNewGame()
         {
-            SizeReader.GetSize(out uint rows, out uint column);
+            _sizeReader.GetSize(out uint rows, out uint column);
             _gameManager.StartNewGame(rows, column);
         }
 
@@ -187,7 +194,7 @@ namespace GameOfLife
         /// </summary>
         private void RunThousand()
         {
-            SizeReader.GetSize(out uint rows, out uint column);
+            _sizeReader.GetSize(out uint rows, out uint column);
             _gameManager.StartNewGame(rows, column, 1000);
         }
     }
