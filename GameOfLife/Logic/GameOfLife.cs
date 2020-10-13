@@ -52,11 +52,23 @@ namespace GameOfLife
         ///Calculate next generation.  
         ///Update all cells on grid.
         /// </summary>
-        public void NextIteration() 
+        /// <param name="rules">'Game of life' rules implementation</param>
+        public void NextIteration(IRules rules) 
         {
-            Grid.CalculateNextGeneration();
+            CalculateNextGeneration(rules);
             Grid.Update();
             IterationNumber++;
+        }
+
+        /// <summary>
+        /// Calculate new states for each cell.
+        /// </summary>
+        public void CalculateNextGeneration(IRules rules)
+        {
+            foreach (Cell cell in Grid)
+            {
+                cell.CalculateNextState(rules);
+            }
         }
     }
 }

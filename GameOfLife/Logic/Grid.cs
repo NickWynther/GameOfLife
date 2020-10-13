@@ -57,17 +57,6 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Calculate new states for each cell.
-        /// </summary>
-        public void CalculateNextGeneration()
-        {
-            foreach (Cell cell in _cells)
-            {
-                cell.CalculateNextState();
-            }
-        }
-
-        /// <summary>
         /// Set list of neighbours for each cell
         /// </summary>
         public void SetNeighbours()
@@ -163,7 +152,6 @@ namespace GameOfLife
         /// <param name="row">Row's index on the grid</param>
         /// <param name="column">Column's index on the grid</param>
         /// <returns>Cell with provided index</returns>
-
         public Cell this[int row, int column]
         {
             get

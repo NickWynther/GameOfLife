@@ -42,19 +42,8 @@ namespace GameOfLife
         /// Calculate cell state in next generation. 
         /// This state depends on count of alive neighbours for current cell.
         /// </summary>
-        public void CalculateNextState()
-        {
-            int aliveNeighbourCount = AliveNeighbourCount();
-
-            if (aliveNeighbourCount < 2 || aliveNeighbourCount > 3)
-            {
-                NextState = State.Dead;
-            }
-            else
-            {
-                NextState = aliveNeighbourCount == 3 ? State.Alive : CurrentState;
-            }
-        }
+        public void CalculateNextState(IRules rules) =>
+            NextState = rules.CalculateNextState(CurrentState, AliveNeighbourCount());
 
         /// <summary>
         /// Set new status for cell. (Apply calculation)

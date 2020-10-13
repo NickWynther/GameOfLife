@@ -19,12 +19,13 @@ namespace GameOfLife
         /// <summary>
         /// Create menu.
         /// </summary>
-        public Menu(IPlayerInterface playerInterface, ISaveManager saveManager)
+        /// <param name="rules">'Game of life' rules implementation</param>
+        public Menu(IRules rules, IPlayerInterface playerInterface, ISaveManager saveManager)
         {
             _playerInterface = playerInterface;
             _saveManager = saveManager;
             _gameRepo = new GameRepository();
-            _gameManager = new GameManager(playerInterface, _gameRepo);
+            _gameManager = new GameManager( playerInterface, _gameRepo , rules);
         }
 
         /// <summary>

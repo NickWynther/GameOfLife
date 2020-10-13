@@ -15,16 +15,19 @@ namespace GameOfLife
         private GameRepository _gameRepo;
         private GameRepository _gamesOnScreen;
         private Timer _timer;
-       
+        private IRules _rules;
+
         /// <summary>
         /// Basic constructor.
         /// </summary>
         /// <param name="gameView">Game window handler.</param>
         /// <param name="gameRepo">Repository with games.</param>
-        public GameManager(IGameView gameView, GameRepository gameRepo)
+        /// <param name="rules">'Game of life' rules implementation</param>
+        public GameManager(IGameView gameView, GameRepository gameRepo, IRules rules)
         {
             _gameView = gameView;
             _gameRepo = gameRepo;
+            _rules = rules;
             _gamesOnScreen = new GameRepository();
             SetupTimer();
         }
@@ -116,7 +119,7 @@ namespace GameOfLife
         public void NextIteration(object obj)
         {
             ShowToPlayer();
-            _gameRepo.ToList().ForEach(game => game.NextIteration());
+            _gameRepo.ToList().ForEach(game => game.NextIteration(_rules));
         }
 
         /// <summary>
