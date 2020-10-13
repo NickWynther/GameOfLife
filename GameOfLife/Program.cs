@@ -9,11 +9,8 @@ namespace GameOfLife
         {
             //setup game menu
             var menu = new Menu(
-                new ConsoleView(),
-                new ConsoleSizeReader(),
-                new ConsoleCommandReader(),
-                new ConsoleGameSelector(),
-                new GameBinarySave());
+                new ConsoleUI(),
+                new GameBinarySave()); ;
             //start menu 
             menu.Run();
         }

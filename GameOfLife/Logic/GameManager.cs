@@ -124,7 +124,7 @@ namespace GameOfLife
         /// </summary>
         private void ShowToPlayer()
         {
-            _gameView.Clear();
+            _gameView.ClearScreen();
             foreach (var game in _gamesOnScreen)
             {
                 _gameView.ShowGrid(game);

@@ -15,7 +15,7 @@ namespace GameOfLife
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="columns"></param>
-        public void GetSize(out uint rows, out uint columns)
+        public void GetGridSize(out uint rows, out uint columns)
         {
             var playerInput = Read();
             BindData(playerInput, out rows, out columns);

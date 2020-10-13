@@ -14,6 +14,6 @@ namespace GameOfLife
         /// Get command chosen by player.
         /// </summary>
         /// <returns>Enum instance associated with player chosen command</returns>
-        MenuCommand GetCommandFromPlayer();
+        MenuCommand GetCommand();
     }
 }

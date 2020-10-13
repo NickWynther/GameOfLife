@@ -12,7 +12,7 @@ namespace GameOfLife
         /// <summary>
         /// Get MenuCommand enum instance according to pressed key in console.
         /// </summary>
-        public MenuCommand GetCommandFromPlayer()
+        public MenuCommand GetCommand()
         {
             var comandKey = Console.ReadKey();      
             return comandKey.Key switch

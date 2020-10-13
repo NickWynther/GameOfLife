@@ -13,31 +13,18 @@ namespace GameOfLife
     {
         private GameRepository _gameRepo;
         private GameManager _gameManager;
-        private IGameView _gameView;
-        private ISizeReader _sizeReader;
-        private ICommandReader _commandReader;
-        private IGameSelector _gameSelector;
+        private IPlayerInterface _playerInterface;
         private ISaveManager _saveManager;
 
         /// <summary>
         /// Create menu.
         /// </summary>
-        /// <param name="gameView">Game output</param>
-        /// <param name="sizeReader"> Functionality for player to input grid size.</param>
-        /// <param name="commandReader">Functionality for player to input commands </param>
-        /// <param name="gameSelector">Functionality for player to select games</param>
-        /// <param name="saveManager">Service for game saving/loading</param>
-        public Menu(IGameView gameView, ISizeReader sizeReader,
-            ICommandReader commandReader, IGameSelector gameSelector, ISaveManager saveManager)
+        public Menu(IPlayerInterface playerInterface, ISaveManager saveManager)
         {
-            _gameView = gameView;
-            _sizeReader = sizeReader;
-            _commandReader = commandReader;
-            _gameSelector = gameSelector;
+            _playerInterface = playerInterface;
             _saveManager = saveManager;
-
             _gameRepo = new GameRepository();
-            _gameManager = new GameManager(_gameView, _gameRepo);
+            _gameManager = new GameManager(playerInterface, _gameRepo);
         }
 
         /// <summary>
@@ -45,17 +32,17 @@ namespace GameOfLife
         /// </summary>
         public void Run()
         {
-            _gameView.ShowMenu();
+            _playerInterface.ShowMenu();
             while (true)
             {
                 try
                 {
-                    var command = _commandReader.GetCommandFromPlayer();
+                    var command = _playerInterface.GetCommand();
                     ExecuteCommand(command);
                 }
                 catch(Exception ex)
                 {
-                    _gameView.ShowException(ex);
+                    _playerInterface.ShowException(ex);
                     Pause();
                 }
             }
@@ -134,22 +121,22 @@ namespace GameOfLife
         /// Select 8 running games and show them on the screen. 
         /// Others game will be removed from screen.
         /// </summary>
-        private void ShowEight() => _gameManager.SetToScreen(_gameSelector.SelectGame(8));
+        private void ShowEight() => _gameManager.SetToScreen(_playerInterface.SelectGame(8));
 
         /// <summary>
         /// Select game and hide it from screen.
         /// </summary>
-        private void HideFromScreen() => _gameManager.HideFromScreen(_gameSelector.SelectGame());
+        private void HideFromScreen() => _gameManager.HideFromScreen(_playerInterface.SelectGame());
 
         /// <summary>
         /// Select game and add it to the screen.
         /// </summary>
-        private void AddToScreen() => _gameManager.SetToScreen(_gameSelector.SelectGame());
+        private void AddToScreen() => _gameManager.SetToScreen(_playerInterface.SelectGame());
 
         /// <summary>
         /// Select game and save it to storage.
         /// </summary>
-        private void SaveGame() => _saveManager.Save(_gameRepo.Get(_gameSelector.SelectGame()));
+        private void SaveGame() => _saveManager.Save(_gameRepo.Get(_playerInterface.SelectGame()));
 
         /// <summary>
         /// Load game from storage and add it to running games. 
@@ -185,7 +172,7 @@ namespace GameOfLife
         /// </summary>
         private void StartNewGame()
         {
-            _sizeReader.GetSize(out uint rows, out uint column);
+            _playerInterface.GetGridSize(out uint rows, out uint column);
             _gameManager.StartNewGame(rows, column);
         }
 
@@ -194,7 +181,7 @@ namespace GameOfLife
         /// </summary>
         private void RunThousand()
         {
-            _sizeReader.GetSize(out uint rows, out uint column);
+            _playerInterface.GetGridSize(out uint rows, out uint column);
             _gameManager.StartNewGame(rows, column, 1000);
         }
     }

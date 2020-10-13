@@ -89,7 +89,7 @@ namespace GameOfLife
         /// <summary>
         /// Clear information from console window.
         /// </summary>
-        public void Clear()
+        public void ClearScreen()
         {
             Console.Clear();
         }
