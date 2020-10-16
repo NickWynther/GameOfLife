@@ -111,11 +111,11 @@ namespace GameOfLife
         /// <returns>True if element exist, False if not exist.</returns>
         private bool IndexExist(int row, int column)
         {
-            if (row == -1 || row == RowsCount)
+            if (row <0 || row >= RowsCount)
             {
                 return false;
             }
-            if (column == -1 || column == ColumnCount)
+            if (column <0 || column >= ColumnCount)
             {
                 return false;
             }
@@ -128,6 +128,11 @@ namespace GameOfLife
         /// <returns>List of neighbour cells</returns>
         public List<Cell> GetNeighbourList(int row, int column)
         {
+            if (!IndexExist(row, column))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             var neighbours = new List<Cell>();
 
             for (var i = row - 1; i <= row + 1; i++)

@@ -12,8 +12,8 @@ namespace GameOfLife
     public class GameManager
     {
         private IGameView _gameView;
-        private GameRepository _gameRepo;
-        private GameRepository _gamesOnScreen;
+        private IGameRepository _gameRepo;
+        private IGameRepository _gamesOnScreen;
         private Timer _timer;
         private IRules _rules;
 
@@ -23,7 +23,7 @@ namespace GameOfLife
         /// <param name="gameView">Game window handler.</param>
         /// <param name="gameRepo">Repository with games.</param>
         /// <param name="rules">'Game of life' rules implementation</param>
-        public GameManager(IGameView gameView, GameRepository gameRepo, IRules rules)
+        public GameManager(IGameView gameView, IGameRepository gameRepo, IRules rules)
         {
             _gameView = gameView;
             _gameRepo = gameRepo;

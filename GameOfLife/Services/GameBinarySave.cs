@@ -41,7 +41,7 @@ namespace GameOfLife
         /// Save all games from repository to storage
         /// </summary>
         /// <param name="games"></param>
-        public void SaveAll(GameRepository games)
+        public void SaveAll(IGameRepository games)
         {
             IFormatter formatter = new BinaryFormatter();
             using Stream stream = new FileStream(_repoFilename, FileMode.Create, FileAccess.Write);
@@ -52,7 +52,7 @@ namespace GameOfLife
         /// Load all games from file to repository
         /// </summary>
         /// <returns>Deserizalized repository</returns>
-        public GameRepository LoadAll()
+        public IGameRepository LoadAll()
         {
             IFormatter formatter = new BinaryFormatter();
             using Stream stream = new FileStream(_repoFilename, FileMode.Open, FileAccess.Read);

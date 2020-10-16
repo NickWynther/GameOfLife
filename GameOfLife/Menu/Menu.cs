@@ -11,7 +11,7 @@ namespace GameOfLife
     /// </summary>
     public class Menu
     {
-        private GameRepository _gameRepo;
+        private IGameRepository _gameRepo;
         private GameManager _gameManager;
         private IPlayerInterface _playerInterface;
         private ISaveManager _saveManager;

@@ -12,7 +12,7 @@ namespace GameOfLife
     /// </summary>
     [Serializable]
     [JsonObject]
-    public class GameRepository : IEnumerable<GameOfLife>
+    public class GameRepository : IGameRepository
     {
         [JsonProperty]
         private List<GameOfLife> _games;
@@ -46,7 +46,7 @@ namespace GameOfLife
         /// <summary>
         /// Add many games to the repository. (Concatinate repositories)
         /// </summary>
-        public void Add(GameRepository games) => games.ToList().ForEach(game => Add(game));
+        public void Add(IGameRepository games) => games.ToList().ForEach(game => Add(game));
 
 
         /// <summary>

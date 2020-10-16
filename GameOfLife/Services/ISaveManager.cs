@@ -25,12 +25,12 @@ namespace GameOfLife
         /// Save all running games to storage.
         /// </summary>
         /// <param name="games">Games repository</param>
-        public void SaveAll(GameRepository games);
+        public void SaveAll(IGameRepository games);
 
         /// <summary>
         /// Load all games from storage.
         /// </summary>
         /// <returns></returns>
-        public GameRepository LoadAll();
+        public IGameRepository LoadAll();
     }
 }

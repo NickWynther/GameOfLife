@@ -19,7 +19,7 @@ namespace GameOfLife
             return game;
         }
 
-        public GameRepository LoadAll()
+        public IGameRepository LoadAll()
         {
             var json = File.ReadAllText(FilenameAll);
             var repo = JsonConvert.DeserializeObject<GameRepository>(json);
@@ -32,7 +32,7 @@ namespace GameOfLife
             File.WriteAllText(Filename, json);
         }
 
-        public void SaveAll(GameRepository games)
+        public void SaveAll(IGameRepository games)
         {
             var json = JsonConvert.SerializeObject(games);
             File.WriteAllText(FilenameAll, json);
