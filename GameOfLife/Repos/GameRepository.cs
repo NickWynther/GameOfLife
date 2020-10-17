@@ -28,15 +28,7 @@ namespace GameOfLife
         /// <summary>
         /// Get total sum of alive cells from all games
         /// </summary>
-        public int TotalAliveCells()
-        {
-            int total = 0;
-            foreach (var game in _games)
-            {
-                total += game.Grid.AliveCellsCount();
-            }
-            return total;
-        }
+        public int TotalAliveCells() => _games.Sum(game => game.Grid.AliveCellsCount());
 
         /// <summary>
         /// Add a game to the repository.

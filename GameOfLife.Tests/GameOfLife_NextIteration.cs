@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using FluentAssertions;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,10 +16,55 @@ namespace GameOfLife.Tests
             var rules = new Mock<IRules>();
             rules.Setup(r => r.CalculateNextState(It.IsAny<State>(), It.IsAny<int>())).Returns(State.Alive);
 
-            sut.CalculateNextGeneration(rules.Object);
+            sut.NextIteration(rules.Object);
             
             //calculateNextState method invoked for every cell 
             rules.Verify(r => r.CalculateNextState(It.IsAny<State>(), It.IsAny<int>()), Times.Exactly(100));
+        }
+
+        [Fact]
+        public void CalculateNextGeneration_predefinedShape_OscillatorBlinker()
+        {
+            int[,] valueMatrix = {{ 0, 1, 0 }, 
+                                  { 0, 1, 0 }, 
+                                  { 0, 1, 0 }};
+
+            int[,] expected = {{ 0, 0, 0 },
+                               { 1, 1, 1 },
+                               { 0, 0, 0 }};
+
+            var sut = new GameOfLife(new Grid(valueMatrix));
+           
+            //act
+            sut.NextIteration();
+            var result = sut.Grid.GetValueMatrix();
+
+            //assert
+            result.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void CalculateNextGeneration_predefinedShape_SpaceshipGlider()
+        {
+            int[,] valueMatrix = {{ 0, 1, 0 },
+                                  { 0, 0, 1 },
+                                  { 1, 1, 1 },
+                                  { 0, 0, 0 }};
+
+            int[,] expected = {{ 0, 0, 0 },
+                               { 0, 0, 1 },
+                               { 1, 0, 1 },
+                               { 0, 1, 1 }};
+
+            var sut = new GameOfLife(new Grid(valueMatrix));
+
+            //act
+            sut.NextIteration();
+            sut.NextIteration();
+            var result = sut.Grid.GetValueMatrix();
+
+            //assert
+            result.Should().BeEquivalentTo(expected);
         }
     }
 }

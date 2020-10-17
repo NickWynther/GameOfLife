@@ -37,10 +37,11 @@ namespace GameOfLife
         }
 
         /// <summary>
-        /// Constructor for desealization.
+        /// Constructor for deserealization.
         /// </summary>
         public GameOfLife()
         {
+
         }
 
         /// <summary>
@@ -69,10 +70,23 @@ namespace GameOfLife
             IterationNumber++;
         }
 
+
         /// <summary>
-        /// Calculate new states for each cell.
+        /// Basic iteration for particular game:
+        /// Calculate next generation.  
+        /// Update all cells on grid.
+        /// (Classic rules are used)
         /// </summary>
-        public void CalculateNextGeneration(IRules rules)
+        public void NextIteration()
+        {
+            IRules rules = new ClassicRules();
+            NextIteration(rules);
+        }
+
+        /// <summary>
+        /// Calculate new states for each cell. Using specified rules.
+        /// </summary>
+        private void CalculateNextGeneration(IRules rules)
         {
             foreach (Cell cell in Grid)
             {

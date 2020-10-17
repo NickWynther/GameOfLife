@@ -25,7 +25,7 @@ namespace GameOfLife
             _playerInterface = playerInterface;
             _saveManager = saveManager;
             _gameRepo = new GameRepository();
-            _gameManager = new GameManager( playerInterface, _gameRepo , rules);
+            _gameManager = new (playerInterface, _gameRepo , rules);
         }
 
         /// <summary>
@@ -58,18 +58,18 @@ namespace GameOfLife
         {
             return command switch
             {
-                MenuCommand.NewGame => new Action(StartNewGame),
-                MenuCommand.LoadGame => new Action(LoadGame),
-                MenuCommand.SaveGame => new Action(SaveGame),
-                MenuCommand.Exit => new Action(Exit),
-                MenuCommand.AddToScreen => new Action(AddToScreen),
-                MenuCommand.ThousandNewGames => new Action(RunThousand),
-                MenuCommand.AddEightToScreen => new Action(ShowEight),
-                MenuCommand.HideFromScreen => new Action(HideFromScreen),
-                MenuCommand.LoadAllGames => new Action(LoadAllGames),
-                MenuCommand.SaveAllGames => new Action(SaveAllGames),
-                MenuCommand.PauseExecution => new Action(Pause),
-                MenuCommand.ResumeExecution => new Action(Resume)
+                MenuCommand.NewGame => new (StartNewGame),
+                MenuCommand.LoadGame => new (LoadGame),
+                MenuCommand.SaveGame => new (SaveGame),
+                MenuCommand.Exit => new (Exit),
+                MenuCommand.AddToScreen => new (AddToScreen),
+                MenuCommand.ThousandNewGames => new (RunThousand),
+                MenuCommand.AddEightToScreen => new (ShowEight),
+                MenuCommand.HideFromScreen => new (HideFromScreen),
+                MenuCommand.LoadAllGames => new (LoadAllGames),
+                MenuCommand.SaveAllGames => new (SaveAllGames),
+                MenuCommand.PauseExecution => new (Pause),
+                MenuCommand.ResumeExecution => new (Resume),
             };
         }
 
@@ -79,7 +79,7 @@ namespace GameOfLife
         /// pause games -> execute command -> resume games -> 
         ///  if no games games on screen, show first game from repository.
         /// </summary>
-        public void ExecuteCommand(MenuCommand command)
+        private void ExecuteCommand(MenuCommand command)
         {
             if (command == MenuCommand.PauseExecution)
             {
@@ -137,7 +137,6 @@ namespace GameOfLife
 
         /// <summary>
         /// Load game from storage and add it to running games. 
-        /// If no other games running, show this game on the screen.
         /// </summary>
         private void LoadGame() => _gameRepo.Add(_saveManager.Load());
         

@@ -20,7 +20,7 @@ namespace GameOfLife.Tests
         [InlineData(4, 3, 5)] //bottom border
         public void GetNeighbourList_input_returnExpected(int row, int column , int expected)
         {
-            var sut = new Grid(5, 5);
+            var sut = new Grid(new GridSize(5, 5));
 
             var result = sut.GetNeighbourList(row,column);
 
@@ -30,7 +30,7 @@ namespace GameOfLife.Tests
         [Fact]
         public void CalculateNextState_throwException()
         {
-            var sut = new Grid(5, 5);
+            var sut = new Grid(new GridSize(5, 5));
 
             Action act = () => sut.GetNeighbourList(100, 100);
 
