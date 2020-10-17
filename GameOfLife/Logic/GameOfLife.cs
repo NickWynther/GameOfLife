@@ -21,9 +21,18 @@ namespace GameOfLife
         /// <summary>
         /// Create new game.
         /// </summary>
-        public GameOfLife(uint rowsCount , uint columnCount)
+        public GameOfLife(GridSize size)
         {
-            Grid = new Grid(rowsCount,columnCount);
+            Grid = new Grid(size);
+            Id = _idCounter++;
+        }
+
+        /// <summary>
+        /// Create new game for existing grid.
+        /// </summary>
+        public GameOfLife(Grid grid)
+        {
+            Grid = grid;
             Id = _idCounter++;
         }
 

@@ -69,10 +69,5 @@ namespace GameOfLife
         /// Exit application.
         /// </summary>
         Exit,
-
-        /// <summary>
-        /// No commands selected.
-        /// </summary>
-        Empty
     }
 }

@@ -13,13 +13,12 @@ namespace GameOfLife
         /// <summary>
         /// Get grid size from user throught console.
         /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="columns"></param>
-        public void GetGridSize(out uint rows, out uint columns)
+        public GridSize GetGridSize()
         {
             var playerInput = Read();
-            BindData(playerInput, out rows, out columns);
+            BindData(playerInput, out int rows, out int columns);
             Validate(rows, columns);
+            return new GridSize(rows, columns);
         }
 
         /// <summary>
@@ -42,11 +41,11 @@ namespace GameOfLife
         /// <param name="data"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        private void BindData(string[] data ,out uint width , out uint height )
+        private void BindData(string[] data ,out int width , out int height )
         {
             if (data.Length >= 2)
             {
-                if (!uint.TryParse(data[0], out width) || !uint.TryParse(data[1], out height))
+                if (!int.TryParse(data[0], out width) || !int.TryParse(data[1], out height))
                 {
                     throw new ArgumentException("Incorect Console Input");
                 }
@@ -63,7 +62,7 @@ namespace GameOfLife
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="columns"></param>
-        private void Validate(uint rows , uint columns)
+        private void Validate(int rows , int columns)
         {
             if (rows < 1 || columns < 1)
             {

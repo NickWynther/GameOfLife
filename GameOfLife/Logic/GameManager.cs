@@ -77,25 +77,20 @@ namespace GameOfLife
         /// Create new game and add it to repository.
         /// This games will be started executing immediately
         /// </summary>
-        public void StartNewGame(uint rowCount , uint columnCount)
-        {
-            _gameRepo.Add(new GameOfLife(rowCount, columnCount));
-            ShowDefault();
-        }
+        public void StartNewGame(GridSize size) => _gameRepo.Add(new GameOfLife(size));
+         
 
         /// <summary>
         /// Create new games and add them to repository.
         /// This games will be started executing immediately.
         /// </summary>
         /// <param name="count">Count of new games.</param>
-        public void StartNewGame(uint rowCount, uint columnCount , int count)
+        public void StartNewGame(GridSize size , int count)
         {
             for (int i = 0; i < count; i++)
             {
-                _gameRepo.Add(new GameOfLife(rowCount, columnCount));
+                _gameRepo.Add(new GameOfLife(size));
             }
-
-            ShowDefault();
         } 
 
         /// <summary>

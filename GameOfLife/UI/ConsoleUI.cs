@@ -40,7 +40,7 @@ namespace GameOfLife
         /// <summary>
         /// Get grid size from player for new game instance creating.
         /// </summary>
-        public void GetGridSize(out uint rows, out uint columns) => _sizeReader.GetGridSize(out rows, out columns);
+        public GridSize GetGridSize() => _sizeReader.GetGridSize();
         
         /// <summary>
         /// Player selects game id.

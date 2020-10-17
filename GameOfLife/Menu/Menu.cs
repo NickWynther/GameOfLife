@@ -50,7 +50,34 @@ namespace GameOfLife
         }
 
         /// <summary>
+        /// Get action for command.
+        /// </summary>
+        /// <param name="command">Command enum</param>
+        /// <returns>Action with method to invoke</returns>
+        private Action GetCommandAction(MenuCommand command)
+        {
+            return command switch
+            {
+                MenuCommand.NewGame => new Action(StartNewGame),
+                MenuCommand.LoadGame => new Action(LoadGame),
+                MenuCommand.SaveGame => new Action(SaveGame),
+                MenuCommand.Exit => new Action(Exit),
+                MenuCommand.AddToScreen => new Action(AddToScreen),
+                MenuCommand.ThousandNewGames => new Action(RunThousand),
+                MenuCommand.AddEightToScreen => new Action(ShowEight),
+                MenuCommand.HideFromScreen => new Action(HideFromScreen),
+                MenuCommand.LoadAllGames => new Action(LoadAllGames),
+                MenuCommand.SaveAllGames => new Action(SaveAllGames),
+                MenuCommand.PauseExecution => new Action(Pause),
+                MenuCommand.ResumeExecution => new Action(Resume)
+            };
+        }
+
+        /// <summary>
         /// Execute player command.
+        /// Workflow:
+        /// pause games -> execute command -> resume games -> 
+        ///  if no games games on screen, show first game from repository.
         /// </summary>
         public void ExecuteCommand(MenuCommand command)
         {
@@ -60,47 +87,16 @@ namespace GameOfLife
                 return;
             }
 
-            if (command == MenuCommand.PauseExecution)
+            if (command == MenuCommand.ResumeExecution)
             {
                 Resume();
                 return;
             }
-            //pause games -> execute command -> resume games.
+
             Pause();
-            switch (command)
-            {
-                case MenuCommand.NewGame: 
-                    StartNewGame(); 
-                    break;
-                case MenuCommand.LoadGame: 
-                    LoadGame(); 
-                    break;
-                case MenuCommand.SaveGame: 
-                    SaveGame(); 
-                    break;
-                case MenuCommand.Exit: 
-                    Exit();  
-                    break;
-                case MenuCommand.AddToScreen:
-                    AddToScreen();
-                    break;
-                case MenuCommand.ThousandNewGames:
-                    RunThousand();
-                    break;
-                case MenuCommand.AddEightToScreen:
-                    ShowEight();
-                    break;
-                case MenuCommand.HideFromScreen:
-                    HideFromScreen();
-                    break;
-                case MenuCommand.LoadAllGames:
-                    LoadAllGames();
-                    break;
-                case MenuCommand.SaveAllGames:
-                    SaveAllGames();
-                    break;
-            }
+            GetCommandAction(command).Invoke();
             Resume();
+            _gameManager.ShowDefault();
         }
 
         /// <summary>
@@ -137,19 +133,14 @@ namespace GameOfLife
         /// <summary>
         /// Select game and save it to storage.
         /// </summary>
-        private void SaveGame() => _saveManager.Save(_gameRepo.Get(_playerInterface.SelectGame()));
+        private void SaveGame() => _saveManager.Save(_gameRepo.Get(_playerInterface.SelectGame())); 
 
         /// <summary>
         /// Load game from storage and add it to running games. 
         /// If no other games running, show this game on the screen.
         /// </summary>
-        private void LoadGame()
-        {
-            var game = _saveManager.Load();
-            _gameRepo.Add(game);
-            _gameManager.ShowDefault();
-        }
-
+        private void LoadGame() => _gameRepo.Add(_saveManager.Load());
+        
         /// <summary>
         /// Save all running games from repository to storage.
         /// </summary>
@@ -158,29 +149,17 @@ namespace GameOfLife
         /// <summary>
         /// Load all saved games from storage to repository and start execute them.
         /// </summary>
-        private void LoadAllGames()
-        {
-            var games = _saveManager.LoadAll();
-            _gameRepo.Add(games);
-            _gameManager.ShowDefault();
-        }
-
+        private void LoadAllGames() => _gameRepo.Add(_saveManager.LoadAll());
+        
         /// <summary>
         /// Ask player for grid size and start new game.
         /// </summary>
-        private void StartNewGame()
-        {
-            _playerInterface.GetGridSize(out uint rows, out uint column);
-            _gameManager.StartNewGame(rows, column);
-        }
-
+        private void StartNewGame() => _gameManager.StartNewGame(_playerInterface.GetGridSize());
+        
         /// <summary>
         /// Ask player for grid size and start 1000 new games.
         /// </summary>
-        private void RunThousand()
-        {
-            _playerInterface.GetGridSize(out uint rows, out uint column);
-            _gameManager.StartNewGame(rows, column, 1000);
-        }
+        private void RunThousand() => _gameManager.StartNewGame(_playerInterface.GetGridSize());
+        
     }
 }

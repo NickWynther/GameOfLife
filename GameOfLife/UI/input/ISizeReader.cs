@@ -12,6 +12,6 @@ namespace GameOfLife
         /// <summary>
         /// Get size for new grid instance creating.
         /// </summary>
-        public void GetGridSize(out uint rows, out uint column);
+        public GridSize GetGridSize();
     }
 }

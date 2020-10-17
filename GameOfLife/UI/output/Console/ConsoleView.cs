@@ -21,9 +21,9 @@ namespace GameOfLife
         public void ShowGrid(GameOfLife game)
         {
             string currentCell;
-            for (int row = 0; row < game.Grid.RowsCount; row++)
+            for (int row = 0; row < game.Grid.Size.Rows; row++)
             {
-                for (int column = 0; column < game.Grid.ColumnCount; column++)
+                for (int column = 0; column < game.Grid.Size.Columns; column++)
                 {
                     if (game.Grid[row,column].CurrentState == State.Alive)
                     {

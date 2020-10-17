@@ -14,8 +14,7 @@ namespace GameOfLife
     [JsonObject]
     public class Grid : IEnumerable 
     {
-        public uint RowsCount { get;  set; }
-        public uint ColumnCount { get; set; }
+        public GridSize Size { get; set; }
 
         [JsonProperty]
         private Cell[,] _cells;
@@ -25,13 +24,15 @@ namespace GameOfLife
         /// </summary>
         /// <param name="rowsCount">Height size.</param>
         /// <param name="columnCount">Width size.</param>
-        public Grid(uint rowsCount, uint columnCount)
+        public Grid(GridSize size , bool randomize = true)
         {
-            RowsCount = rowsCount;
-            ColumnCount = columnCount;
+            Size = size;
             InitializeGrid();
             SetNeighbours();
-            Randomize();
+            if (randomize) 
+            {
+                Randomize();
+            }
         }
 
         /// <summary>
@@ -46,10 +47,10 @@ namespace GameOfLife
         /// </summary>
         private void InitializeGrid()
         {
-            _cells = new Cell[RowsCount, ColumnCount];
-            for (int row = 0; row < RowsCount; row++)
+            _cells = new Cell[Size.Rows, Size.Columns];
+            for (int row = 0; row < Size.Rows; row++)
             {
-                for (int column = 0; column < ColumnCount; column++)
+                for (int column = 0; column < Size.Columns; column++)
                 {
                     _cells[row, column] = new Cell();
                 }
@@ -61,9 +62,9 @@ namespace GameOfLife
         /// </summary>
         public void SetNeighbours()
         {
-            for (int row = 0; row < RowsCount; row++)
+            for (int row = 0; row <Size.Rows; row++)
             {
-                for (int column = 0; column < ColumnCount; column++)
+                for (int column = 0; column < Size.Columns; column++)
                 {
                     _cells[row, column].Neighbours = GetNeighbourList(row, column);
                 }
@@ -111,14 +112,16 @@ namespace GameOfLife
         /// <returns>True if element exist, False if not exist.</returns>
         private bool IndexExist(int row, int column)
         {
-            if (row <0 || row >= RowsCount)
+            if (row <0 || row >= Size.Rows)
             {
                 return false;
             }
-            if (column <0 || column >= ColumnCount)
+
+            if (column <0 || column >= Size.Columns)
             {
                 return false;
             }
+
             return true;
         }
 

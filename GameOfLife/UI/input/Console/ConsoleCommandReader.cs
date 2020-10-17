@@ -29,7 +29,7 @@ namespace GameOfLife
                 ConsoleKey.M => MenuCommand.ThousandNewGames,
                 ConsoleKey.O => MenuCommand.SaveAllGames,
                 ConsoleKey.I => MenuCommand.LoadAllGames,
-                _ => MenuCommand.Empty
+                _ => throw new NotSupportedException("Incorrect command")
             };
         }
     }

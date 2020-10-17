@@ -11,7 +11,7 @@ namespace GameOfLife.Tests
         [Fact]
         public void CalculateNextGeneration_works()
         {
-            var sut = new GameOfLife(10, 10); // game with 10x10=100 cells on grid
+            var sut = new GameOfLife(new GridSize(10,10)); // game with 10x10=100 cells on grid
             var rules = new Mock<IRules>();
             rules.Setup(r => r.CalculateNextState(It.IsAny<State>(), It.IsAny<int>())).Returns(State.Alive);
 
