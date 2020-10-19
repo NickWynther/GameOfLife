@@ -6,4 +6,4 @@ var menu = new Menu(
     new ConsoleUI(),
     new GameJsonSave());
 //start menu 
-menu.Run();
+menu.RunLoop();

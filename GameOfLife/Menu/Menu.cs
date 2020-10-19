@@ -31,21 +31,30 @@ namespace GameOfLife
         /// <summary>
         /// Start waiting for player commands and execute them in a loop
         /// </summary>
-        public void Run()
+        public void RunLoop()
         {
             _playerInterface.ShowMenu();
             while (true)
             {
-                try
-                {
-                    var command = _playerInterface.GetCommand();
-                    ExecuteCommand(command);
-                }
-                catch(Exception ex)
-                {
-                    _playerInterface.ShowException(ex);
-                    Pause();
-                }
+                Run();
+            }
+        }
+
+
+        /// <summary>
+        /// Wait for player command and execute it. (once)
+        /// </summary>
+        public void Run()
+        {
+            try
+            {
+                var command = _playerInterface.GetCommand();
+                ExecuteCommand(command);
+            }
+            catch (Exception ex)
+            {
+                _playerInterface.ShowException(ex);
+                Pause();
             }
         }
 

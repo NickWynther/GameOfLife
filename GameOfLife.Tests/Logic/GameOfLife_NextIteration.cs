@@ -10,7 +10,7 @@ namespace GameOfLife.Tests
     public class GameOfLife_NextIteration
     {
         [Fact]
-        public void CalculateNextGeneration_works()
+        public void CalculateNextGeneration_forNewGrid_works()
         {
             var sut = new GameOfLife(new GridSize(10,10)); // game with 10x10=100 cells on grid
             var rules = new Mock<IRules>();
@@ -23,7 +23,7 @@ namespace GameOfLife.Tests
         }
 
         [Fact]
-        public void CalculateNextGeneration_predefinedShape_OscillatorBlinker()
+        public void CalculateNextGeneration_predefinedShapeOscillatorBlinker_works()
         {
             int[,] valueMatrix = {{ 0, 1, 0 }, 
                                   { 0, 1, 0 }, 
@@ -44,7 +44,7 @@ namespace GameOfLife.Tests
         }
 
         [Fact]
-        public void CalculateNextGeneration_predefinedShape_SpaceshipGlider()
+        public void CalculateNextGeneration_predefinedShapeSpaceshipGlider_works()
         {
             int[,] valueMatrix = {{ 0, 1, 0 },
                                   { 0, 0, 1 },
